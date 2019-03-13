@@ -1,0 +1,17 @@
+@charset 'UTF-8';
+
+table {
+	
+}
+
+input {
+	display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+}
+
+#submitButton {
+	width: 200px;
+	background: #668ad8;
+	margin-left : 150px;
+}

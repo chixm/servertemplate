@@ -18,7 +18,7 @@ func main() {
 }
 
 func initialize() {
-
+	InitializeUniqueIdMaker()
 }
 
 // エンドポイントの設定
@@ -27,6 +27,10 @@ func createServerEndPoints() *mux.Router {
 	r.HandleFunc("/", HomeHandler)
 	r.HandleFunc("/information", InformationHandler)
 	r.HandleFunc("/match/{roomId}", MatchHandler)
+	r.HandleFunc("/login", LoginHandler)
+	r.HandleFunc("/submitLogin", SubmitLoginHandler)
+
+	r.HandleFunc("/userInfo", loginCheckInterceptor(UserInfoHandler))
 
 	// /static/以下をファイルに直アクセス可能な部分として定義
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(`../../static`))))

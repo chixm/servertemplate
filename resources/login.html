@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link href="static/css/common.css" rel="stylesheet" type="text/css">
+<link href="static/css/login.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="static/js/top.js"></script>
+</head>
+<body>
+
+{{ template "header.html" }}
+
+<div>
+
+<form method="POST" action="/submitLogin">
+<table>
+	<tr>
+		<td>
+			UserID:
+		</td>
+		<td>
+			<input type="text" id="userId" />
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Password:
+		</td>
+		<td>
+			<input type="password" id="password" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input type="submit" value="LOGIN" id="submitButton" />
+		</td>
+	</tr>
+</table>
+
+</form>
+</div>
+</body>
+</html>
