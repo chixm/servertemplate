@@ -14,7 +14,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func InformationHandler(w http.ResponseWriter, r *http.Request) {
-
+	showTemplate(w, nil, "../../resources/information.html", "../../resources/parts/header.html")
 }
 
 func MatchHandler(w http.ResponseWriter, r *http.Request) {
@@ -31,12 +31,13 @@ func SubmitLoginHandler(w http.ResponseWriter, r *http.Request) {
 	setLoginCookie(&w, r)
 	log.Println(`Login Cookie has been set`)
 
-	http.Redirect(w, r, "/userInfo", http.StatusFound)
+	// If user succeeded to login. Go to UserInfo page.
+	http.Redirect(w, r, URI_USER_INFO, http.StatusFound)
 }
 
 // Must be logged In.
 func UserInfoHandler(w http.ResponseWriter, r *http.Request) {
-
+	log.Println(`User Reached to The page Handler with logged in state.`)
 }
 
 func showTemplate(w http.ResponseWriter, values interface{}, htmlFilesInResource ...string) {
