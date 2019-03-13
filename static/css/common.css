@@ -1,0 +1,17 @@
+@charset 'UTF-8';
+
+div .titleText{
+	font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+	float: left;
+	color: white;
+	margin-top: 5px;
+	margin-left:10px;
+}
+
+.headerBackground {
+	width : 100%;
+	background-color: #000000;
+	height: 30px;
+	margin: -8px -12px 0;
+}
+
