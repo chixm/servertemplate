@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"time"
 
@@ -11,16 +10,24 @@ import (
 // instance of the server
 var server *http.Server
 
-func main() {
-	log.Println(`Server is Launched`)
+const USE_LOG_FILE = false // If this param is true, write out log to /log/application.log file instead of writing to stdout.
 
+func main() {
 	initialize()
 
 	launchServer(createServerEndPoints())
+
+	defer terminate()
 }
 
 func initialize() {
+	SetupLog(USE_LOG_FILE)
+
 	InitializeUniqueIdMaker()
+}
+
+func terminate() {
+	TerminateLog()
 }
 
 // URI of endpoints
@@ -57,5 +64,7 @@ func launchServer(r http.Handler) error {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
+
+	logger.Info("Execute Server ::" + server.Addr)
 	return server.ListenAndServe()
 }
