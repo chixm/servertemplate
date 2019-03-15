@@ -6,7 +6,9 @@
 			"host": "localhost",
 			"port": 3306,
 			"username" : "root",
-			"password" : ""
+			"password" : "",
+			"maxidle" : 5,
+			"maxopen" : 10
 		},
 		{
 			"id" : "slaveDB",
@@ -14,7 +16,9 @@
 			"host": "localhost",
 			"port": 3306,
 			"username" : "root",
-			"password" : ""
+			"password" : "",
+			"maxidle" : 5,
+			"maxopen" : 10
 		}
 	]
 }
