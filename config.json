@@ -1,0 +1,24 @@
+{
+	"database": [
+		{
+			"id": "masterBD",
+			"name": "test",
+			"host": "localhost",
+			"port": 3306,
+			"username" : "root",
+			"password" : "",
+			"maxidle" : 5,
+			"maxopen" : 10
+		},
+		{
+			"id" : "slaveDB",
+			"name": "test",
+			"host": "localhost",
+			"port": 3306,
+			"username" : "root",
+			"password" : "",
+			"maxidle" : 5,
+			"maxopen" : 10
+		}
+	]
+}

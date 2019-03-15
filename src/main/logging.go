@@ -14,6 +14,7 @@ var logFile *os.File
 
 /**
  * Using Logrus Library for Logging formatter.
+ * See https://github.com/sirupsen/logrus for detail.
  * This library formats log to JSON format to make it easier to read from other log analyzer.
  * useFile true:uses logfile false: outputs to standard output
  *

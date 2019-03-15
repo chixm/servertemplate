@@ -23,10 +23,16 @@ func main() {
 func initialize() {
 	SetupLog(USE_LOG_FILE)
 
+	InitializeConfig()
+
 	InitializeUniqueIdMaker()
+
+	InitializeDatabaseConnections()
 }
 
 func terminate() {
+	TerminateDatabaseConnections()
+
 	TerminateLog()
 }
 
