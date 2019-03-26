@@ -10,9 +10,11 @@ import (
 	"time"
 )
 
-// 複数サーバー間でも必ず固有になるIDの生成を行う
-// IDの生成方法で参考にしたソース
-// 参考: https://github.com/chilts/sid/blob/master/sid.go
+//
+// Create UniqueID with hashed hostname
+// so even this code worked in multiple servers,
+// ID does not duplicate between servers.
+// https://github.com/chilts/sid/blob/master/sid.go
 
 var lastTime int64
 var lastRand int64

@@ -57,7 +57,7 @@ func createServerEndPoints() *mux.Router {
 	// loginCheckInterceptor redirects to login page if user was not logged in.
 	r.HandleFunc(URI_USER_INFO, loginCheckInterceptor(UserInfoHandler))
 
-	// /static/以下をファイルに直アクセス可能な部分として定義
+	// Files under /static can accessed by /static/(filename)...
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(`../../static`))))
 	return r
 }
