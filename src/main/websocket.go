@@ -4,6 +4,7 @@ package main
 
 import (
 	"net/http"
+	"service"
 	"strings"
 	"sync"
 	"time"
@@ -12,9 +13,13 @@ import (
 )
 
 var upgrader websocket.Upgrader
+var messageReceiver *service.WebSocketService
 
 func InitializeWebSocket() {
 	upgrader = websocket.Upgrader{CheckOrigin: checkOriginHost}
+
+	messageReceiver = &service.WebSocketService{}
+	messageReceiver.New()
 }
 
 // Entry Point of WebSocket Request
@@ -81,13 +86,13 @@ func messageListener(conn *websocket.Conn) <-chan int {
 			}
 			switch mt {
 			case websocket.BinaryMessage:
-				binaryMessageReceiver(msg)
+				messageReceiver.BinaryMessageReceiver(conn, msg)
 			case websocket.TextMessage:
-				textMessageReceiver(msg)
-			case websocket.PingMessage: //Do Ping Pong.
-				pingMessageReceiver(msg)
-			case websocket.PongMessage: //Nothing to Do.
-				pongMessageReceiver(msg)
+				messageReceiver.TextMessageReceiver(conn, msg)
+			case websocket.PingMessage:
+				messageReceiver.PingMessageReceiver(conn, msg)
+			case websocket.PongMessage:
+				messageReceiver.PongMessageReceiver(conn, msg)
 			default:
 				logger.Errorln(`Unknown Message Type detected.`)
 				break messageLoop
