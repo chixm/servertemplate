@@ -28,6 +28,8 @@ func initialize() {
 	InitializeUniqueIdMaker()
 
 	InitializeDatabaseConnections()
+
+	InitializeAutotest() //optional
 }
 
 func terminate() {
