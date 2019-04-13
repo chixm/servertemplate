@@ -29,7 +29,7 @@ func initialize() {
 
 	InitializeDatabaseConnections()
 
-	InitializeAutotest() //optional
+	InitializeWebdriver() //optional
 }
 
 func terminate() {
@@ -45,6 +45,7 @@ const (
 	URI_INFORMATION  = `/information`
 	URI_MATCHING     = `/match/{roomId}`
 	URI_SUBMIT_LOGIN = `/submitLogin`
+	URI_WEBDRIVER    = `/browser/{command}`
 )
 
 // settings of endpoints
@@ -55,7 +56,7 @@ func createServerEndPoints() *mux.Router {
 	r.HandleFunc(URI_MATCHING, MatchHandler)
 	r.HandleFunc(URI_LOGIN, LoginHandler)
 	r.HandleFunc(URI_SUBMIT_LOGIN, SubmitLoginHandler)
-
+	r.HandleFunc(URI_WEBDRIVER, WebdriverHandler)
 	// loginCheckInterceptor redirects to login page if user was not logged in.
 	r.HandleFunc(URI_USER_INFO, loginCheckInterceptor(UserInfoHandler))
 

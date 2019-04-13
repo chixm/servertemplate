@@ -25,6 +25,10 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	showTemplate(w, nil, "../../resources/login.html", "../../resources/parts/header.html")
 }
 
+func WebdriverHandler(w http.ResponseWriter, r *http.Request) {
+	webdriveAction(w, r)
+}
+
 func SubmitLoginHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO: validate login
 
