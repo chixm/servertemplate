@@ -22,7 +22,7 @@ func InitializeConfig() {
 }
 
 func loadConfiguration() {
-	// first argument of binaty is environment parameter.
+	// first argument of binary is environment parameter.
 	if len(os.Args) > 1 {
 		environment := os.Args[1]
 		viper.SetConfigName(`config.` + environment)

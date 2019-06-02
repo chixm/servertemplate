@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"service"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -29,6 +30,8 @@ func initialize() {
 
 	InitializeDatabaseConnections()
 
+	InitializeCommonFunctions()
+
 	InitializeWebdriver() //optional
 }
 
@@ -38,27 +41,18 @@ func terminate() {
 	TerminateLog()
 }
 
-// URI of endpoints
-const (
-	URI_LOGIN        = `/login`
-	URI_USER_INFO    = `/userInfo`
-	URI_INFORMATION  = `/information`
-	URI_MATCHING     = `/match/{roomId}`
-	URI_SUBMIT_LOGIN = `/submitLogin`
-	URI_WEBDRIVER    = `/browser/{command}`
-)
-
 // settings of endpoints
 func createServerEndPoints() *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/", HomeHandler)
-	r.HandleFunc(URI_INFORMATION, InformationHandler)
-	r.HandleFunc(URI_MATCHING, MatchHandler)
-	r.HandleFunc(URI_LOGIN, LoginHandler)
-	r.HandleFunc(URI_SUBMIT_LOGIN, SubmitLoginHandler)
-	r.HandleFunc(URI_WEBDRIVER, WebdriverHandler)
-	// loginCheckInterceptor redirects to login page if user was not logged in.
-	r.HandleFunc(URI_USER_INFO, loginCheckInterceptor(UserInfoHandler))
+	serviceMap, err := service.LoadServices()
+	if err != nil {
+		panic(`Coud not define URL of Server service.` + err.Error())
+	}
+
+	// load all handlers listed in service.webHandlers.
+	for url, handler := range *serviceMap {
+		r.HandleFunc(url, handler)
+	}
 
 	// Files under /static can accessed by /static/(filename)...
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(`../../static`))))
@@ -76,4 +70,9 @@ func launchServer(r http.Handler) error {
 
 	logger.Info("Execute Server ::" + server.Addr)
 	return server.ListenAndServe()
+}
+
+/** send common functions to service. */
+func InitializeCommonFunctions() {
+	service.LoadCookieFunctions(setLoginCookie, loginCheckInterceptor, validateLoginCookie)
 }
