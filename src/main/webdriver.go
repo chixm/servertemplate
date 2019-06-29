@@ -14,7 +14,7 @@ import (
 var webdriver *agouti.WebDriver
 
 // Test All pages loaded when server launches
-func InitializeWebdriver() {
+func initializeWebdriver() {
 	webdriver = agouti.ChromeDriver()
 
 	err := webdriver.Start()
@@ -28,7 +28,7 @@ func InitializeWebdriver() {
 		logger.Error("Failed to open page:%v", err)
 	}
 
-	err = browser.Navigate("http://www.dmm.com/")
+	err = browser.Navigate("https://google.com/")
 	if err != nil {
 		logger.Error(err)
 	}

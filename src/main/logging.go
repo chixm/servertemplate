@@ -19,7 +19,7 @@ var logFile *os.File
  * useFile true:uses logfile false: outputs to standard output
  *
  */
-func SetupLog(useFile bool) {
+func setupLog(useFile bool) {
 	// Configure Log Formats
 	var lg = logrus.New()
 	mode := int32(0777)
@@ -43,6 +43,6 @@ func SetupLog(useFile bool) {
 	logger.Info("Logrus is Setup for logging.")
 }
 
-func TerminateLog() {
+func terminateLog() {
 	logFile.Close()
 }

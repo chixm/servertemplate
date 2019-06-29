@@ -17,7 +17,7 @@ var database *service.DatabaseConnection
 
 // init configuration of database. requires configurations loaded.
 // To See MySQL driver settings format. Go to https://github.com/go-sql-driver/mysql/
-func InitializeDatabaseConnections() {
+func initializeDatabaseConnections() {
 	database = &service.DatabaseConnection{Connections: make(map[string]*sqlx.DB)}
 	for _, dbConf := range config.Database {
 		// Connecting to MySQL server.

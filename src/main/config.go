@@ -16,7 +16,7 @@ import (
 var config *Configuration
 
 // read configuration file.
-func InitializeConfig() {
+func initializeConfig() {
 	logger.Println(`[Configuration]`)
 	loadConfiguration()
 }
@@ -62,8 +62,9 @@ func printConfiguration(c *Configuration) {
 
 // ALL Configuration File Contents Structure
 type Configuration struct {
-	Database []*DbConfig
-	Redis    []*RedisConfig
+	Port     int            // server port
+	Database []*DbConfig    //database configuration
+	Redis    []*RedisConfig //redis configuration
 }
 
 // basic database configuration

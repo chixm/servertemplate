@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"service"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -23,19 +24,19 @@ func main() {
 
 // initialize systems around this server.
 func initialize() {
-	SetupLog(USE_LOG_FILE)
+	setupLog(USE_LOG_FILE)
 
-	InitializeConfig()
+	initializeConfig()
 
-	InitializeUniqueIdMaker()
+	initializeUniqueIdMaker()
 
-	InitializeDatabaseConnections()
+	initializeDatabaseConnections()
 
 	initializeRedis()
 
-	InitializeCommonFunctions()
+	initializeWebdriver()
 
-	InitializeWebdriver() //optional
+	initializeServiceFunctions()
 }
 
 func terminate() {
@@ -43,7 +44,7 @@ func terminate() {
 
 	terminateRedis()
 
-	TerminateLog()
+	terminateLog()
 }
 
 // settings of endpoints
@@ -68,7 +69,7 @@ func createServerEndPoints() *mux.Router {
 func launchServer(r http.Handler) error {
 	server := &http.Server{
 		Handler:      r,
-		Addr:         "localhost:19090",
+		Addr:         "localhost:" + strconv.Itoa(config.Port),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
@@ -78,6 +79,6 @@ func launchServer(r http.Handler) error {
 }
 
 /** send common functions to service. */
-func InitializeCommonFunctions() {
+func initializeServiceFunctions() {
 	service.LoadCookieFunctions(setLoginCookie, loginCheckInterceptor, validateLoginCookie)
 }

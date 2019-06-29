@@ -23,7 +23,7 @@ var mu = &sync.Mutex{}
 
 var hostName string
 
-func InitializeUniqueIdMaker() {
+func initializeUniqueIdMaker() {
 	if h, err := os.Hostname(); err == nil {
 		hostName = h
 	} else {
