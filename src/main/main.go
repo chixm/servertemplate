@@ -78,7 +78,9 @@ func launchServer(r http.Handler) error {
 	return server.ListenAndServe()
 }
 
-/** send common functions to service. */
+/** give initialized functions and connections to service. */
 func initializeServiceFunctions() {
+	service.LoadLogger(logger)
 	service.LoadCookieFunctions(setLoginCookie, loginCheckInterceptor, validateLoginCookie)
+	service.LoadDbConnections(database)
 }

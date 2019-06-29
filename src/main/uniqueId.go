@@ -31,7 +31,7 @@ func initializeUniqueIdMaker() {
 	}
 }
 
-func CreateUniqId() string {
+func createUniqId() string {
 	return createId()
 }
 

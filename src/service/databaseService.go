@@ -15,11 +15,3 @@ func (d *DatabaseConnection) getDb(id string) *sqlx.DB {
 }
 
 var dbConnHolder *DatabaseConnection
-
-func RegisterDb(d *DatabaseConnection) {
-	dbConnHolder = d
-}
-
-func GetDbConnection(id string) *sqlx.DB {
-	return dbConnHolder.getDb(id)
-}

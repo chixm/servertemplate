@@ -6,17 +6,18 @@ import (
 	"service"
 )
 
+// Simple login cookie function and cookie validation.
+// replace functions in service package if you want to share cookie by Redis. This cookie only works for single server.
+
 const SESSION = `_sessionId`
 
 // ログイン時にセッション用クッキーを追加する
 func setLoginCookie(w *http.ResponseWriter, r *http.Request) {
-
 	cookie := http.Cookie{
 		Name:     SESSION,
-		Value:    CreateUniqId(),
+		Value:    createUniqId(),
 		HttpOnly: true,
 	}
-
 	http.SetCookie(*w, &cookie)
 }
 
@@ -27,7 +28,6 @@ func validateLoginCookie(r *http.Request) bool {
 		return false
 	}
 	log.Println(`Cookie Value has ` + c.Value)
-	// TODO: check if login information exists or not.
 	return true
 }
 
