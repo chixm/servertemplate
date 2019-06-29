@@ -21,6 +21,8 @@ func InitializeConfig() {
 	loadConfiguration()
 }
 
+// loading configuration file
+// configuration file should be placed in root with name 'config.json' or 'config.production.json'
 func loadConfiguration() {
 	// first argument of binary is environment parameter.
 	if len(os.Args) > 1 {
@@ -52,11 +54,16 @@ func printConfiguration(c *Configuration) {
 	for _, v := range c.Database {
 		logger.Println(`Loaded Database Configuration of ::` + v.Id + "[" + v.Host + ":" + strconv.Itoa(v.Port) + "]")
 	}
+	for _, r := range c.Redis {
+		logger.Println(`Loaded Redis Configuration of ::` + r.Id + "[" + r.Host + "]")
+	}
+
 }
 
 // ALL Configuration File Contents Structure
 type Configuration struct {
 	Database []*DbConfig
+	Redis    []*RedisConfig
 }
 
 // basic database configuration
@@ -69,4 +76,12 @@ type DbConfig struct {
 	Password string
 	MaxIdle  int
 	MaxOpen  int
+}
+
+type RedisConfig struct {
+	Id        string // redis connection identifier
+	Host      string //redis server (ip or domain)
+	Port      int    // redis port
+	MaxIdle   int    // connection Idle max count
+	MaxActive int    // connections Active limit
 }

@@ -33,7 +33,7 @@ func InitializeDatabaseConnections() {
 }
 
 // remove connections if server ends.
-func TerminateDatabaseConnections() {
+func terminateDatabaseConnections() {
 	for key, d := range database.Connections {
 		logger.Println(`Closing Database :` + key)
 		if err := d.Close(); err != nil {

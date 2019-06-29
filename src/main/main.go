@@ -21,6 +21,7 @@ func main() {
 	defer terminate()
 }
 
+// initialize systems around this server.
 func initialize() {
 	SetupLog(USE_LOG_FILE)
 
@@ -30,13 +31,17 @@ func initialize() {
 
 	InitializeDatabaseConnections()
 
+	initializeRedis()
+
 	InitializeCommonFunctions()
 
 	InitializeWebdriver() //optional
 }
 
 func terminate() {
-	TerminateDatabaseConnections()
+	terminateDatabaseConnections()
+
+	terminateRedis()
 
 	TerminateLog()
 }

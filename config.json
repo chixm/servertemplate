@@ -20,5 +20,14 @@
 			"maxidle" : 5,
 			"maxopen" : 10
 		}
+	],
+	"redis": [
+		{
+			"id": "default",
+			"host":"127.0.0.1",
+			"port": 6379,
+			"maxidle":3,
+			"maxactive":5
+		}
 	]
 }

@@ -6,8 +6,6 @@ import (
 	"net/http"
 )
 
-type ServiceHandler (map[string]func(w http.ResponseWriter, r *http.Request))
-
 // URI of endpoints
 const (
 	URI_LOGIN        = `/login`
@@ -21,8 +19,8 @@ const (
 /**
  * Define Webservice URL and web handler methods.
  */
-func LoadServices() (*ServiceHandler, error) {
-	var services ServiceHandler
+func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)), error) {
+	services := make(map[string]func(w http.ResponseWriter, r *http.Request))
 	services[`/`] = HomeHandler
 	services[URI_INFORMATION] = InformationHandler
 	services[URI_MATCHING] = MatchHandler
