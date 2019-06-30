@@ -5,7 +5,7 @@ package service
 import (
 	"net/http"
 
-	"github.com/sclevine/agouti"
+	_ "github.com/sclevine/agouti"
 )
 
 const (
@@ -15,21 +15,19 @@ const (
 func ExecuteWebdriver(command string, w http.ResponseWriter) error {
 	var err error
 	err = nil
-	webdriver := agouti.ChromeDriver()
 	switch command {
 	case LOGIN:
-		err = login(webdriver, w)
+		err = login(w)
 	}
 	return err
 }
 
-func login(driver *agouti.WebDriver, w http.ResponseWriter) error {
+func login(w http.ResponseWriter) error {
 	w.Write(wl(`start login`))
-	err := driver.Start()
+	err := webdriver.Start()
 	if err != nil {
 		w.Write(wl(err.Error()))
 	}
-
 	return err
 }
 

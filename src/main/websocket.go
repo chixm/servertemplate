@@ -15,9 +15,8 @@ import (
 var upgrader websocket.Upgrader
 var messageReceiver *service.WebSocketService
 
-func InitializeWebSocket() {
+func initializeWebSocket() {
 	upgrader = websocket.Upgrader{CheckOrigin: checkOriginHost}
-
 	messageReceiver = &service.WebSocketService{}
 	messageReceiver.New()
 }
@@ -26,7 +25,7 @@ func InitializeWebSocket() {
 func ws(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil) //upgrade from http to ws
 	if err != nil {
-		logger.Errorln(err)
+		logger.Errorln("Upgrade to websocket failed:: " + err.Error())
 		return
 	}
 	defer conn.Close()

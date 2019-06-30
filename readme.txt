@@ -1,8 +1,8 @@
 ##
 # ATAGO
 # 
-# All in Template Assembled for GOlang
-# 
+# Web Server Template Assembled for GOlang
+# @author chixm
 ##
 
 ATAGO is an Web Server Template with very often used libraries.

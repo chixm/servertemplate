@@ -4,7 +4,9 @@ import (
 	"net/http"
 
 	logrus "github.com/Sirupsen/logrus"
+	"github.com/gomodule/redigo/redis"
 	"github.com/jmoiron/sqlx"
+	"github.com/sclevine/agouti"
 )
 
 // Getting functions , Connections and Configurations from Main package
@@ -18,6 +20,10 @@ var isLoginCookieValid func(r *http.Request) bool
 var loginCheckInterceptor func(exec func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request)
 
 var logger *logrus.Entry
+
+var redisConnHolder map[string]*redis.Pool
+
+var webdriver *agouti.WebDriver
 
 func LoadCookieFunctions(
 	loginCookieSetFunc func(w *http.ResponseWriter, r *http.Request),
@@ -35,4 +41,12 @@ func LoadDbConnections(dbConns map[string]*sqlx.DB) {
 
 func LoadLogger(l *logrus.Entry) {
 	logger = l
+}
+
+func LoadRedisConnections(r map[string]*redis.Pool) {
+	redisConnHolder = r
+}
+
+func LoadWebDriver(w *agouti.WebDriver) {
+	webdriver = w
 }

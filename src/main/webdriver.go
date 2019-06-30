@@ -3,11 +3,8 @@ package main
 // Test the web pages automatically
 
 import (
-	"net/http"
 	_ "os"
-	"service"
 
-	"github.com/gorilla/mux"
 	"github.com/sclevine/agouti"
 )
 
@@ -34,14 +31,4 @@ func initializeWebdriver() {
 	}
 	html, _ := browser.HTML()
 	logger.Debug(html)
-}
-
-func webdriveAction(w http.ResponseWriter, r *http.Request) {
-	var urlParams = mux.Vars(r)
-	// choose webdirve command from URL
-	err := service.ExecuteWebdriver(urlParams[`command`], w)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
-	}
 }

@@ -60,6 +60,10 @@ func createServerEndPoints() *mux.Router {
 		r.HandleFunc(url, handler)
 	}
 
+	// load default web socket
+	initializeWebSocket()
+	r.HandleFunc("/ws", ws)
+
 	// Files under /static can accessed by /static/(filename)...
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(`../../static`))))
 	return r
@@ -83,4 +87,5 @@ func initializeServiceFunctions() {
 	service.LoadLogger(logger)
 	service.LoadCookieFunctions(setLoginCookie, loginCheckInterceptor, validateLoginCookie)
 	service.LoadDbConnections(database)
+	service.LoadRedisConnections(redisConnections)
 }
