@@ -21,3 +21,8 @@ websocket
 keyvalue store(redis)
 
 So, making a copy of The ATAGO will easily brings you to start developing your web service. 
+
+#build for Windows
+To build executable binary, execute build.bat (go command is required). 
+
+
