@@ -22,7 +22,8 @@ func initializeWebdriver() {
 
 	browser, err := webdriver.NewPage()
 	if err != nil {
-		logger.Error("Failed to open page:%v", err)
+		logger.Error("Failed to open page")
+		logger.Error(err)
 	}
 
 	err = browser.Navigate("https://google.com/")

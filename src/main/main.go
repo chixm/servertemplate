@@ -36,6 +36,8 @@ func initialize() {
 
 	initializeWebdriver()
 
+	initializeEmailSender()
+
 	initializeServiceFunctions()
 }
 
@@ -88,4 +90,5 @@ func initializeServiceFunctions() {
 	service.LoadCookieFunctions(setLoginCookie, loginCheckInterceptor, validateLoginCookie)
 	service.LoadDbConnections(database)
 	service.LoadRedisConnections(redisConnections)
+	service.LoadSendEmailFunction(SendEmail)
 }

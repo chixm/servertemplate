@@ -65,6 +65,7 @@ type Configuration struct {
 	Port     int            // server port
 	Database []*DbConfig    //database configuration
 	Redis    []*RedisConfig //redis configuration
+	Email    *EmailConfig   // mail configuration
 }
 
 // basic database configuration
@@ -85,4 +86,12 @@ type RedisConfig struct {
 	Port      int    // redis port
 	MaxIdle   int    // connection Idle max count
 	MaxActive int    // connections Active limit
+}
+
+type EmailConfig struct {
+	Smtp         string // smtp server
+	SmtpSvr      string // smtp server to access
+	User         string // userid for authorization
+	Password     string // password for authorization
+	TestSendAddr string // sends email to this address for test when server launched.
 }

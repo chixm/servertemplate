@@ -30,5 +30,12 @@
 			"maxidle":3,
 			"maxactive":5
 		}
-	]
+	],
+	"email": {
+		"smtp": "smtp.gmail.com",
+		"smtpSvr": "smtp.gmail.com:587",
+		"user": "*****@gmail.com",
+		"password": "******",
+		"testSendAddr": "******@gmail.com"
+	}
 }

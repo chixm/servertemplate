@@ -25,6 +25,8 @@ var redisConnHolder map[string]*redis.Pool
 
 var webdriver *agouti.WebDriver
 
+var sendEmail func(to []string, from string, message []byte) error
+
 func LoadCookieFunctions(
 	loginCookieSetFunc func(w *http.ResponseWriter, r *http.Request),
 	loginCheckFunc func(exec func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request),
@@ -49,4 +51,8 @@ func LoadRedisConnections(r map[string]*redis.Pool) {
 
 func LoadWebDriver(w *agouti.WebDriver) {
 	webdriver = w
+}
+
+func LoadSendEmailFunction(sm func([]string, string, []byte) error) {
+	sendEmail = sm
 }
