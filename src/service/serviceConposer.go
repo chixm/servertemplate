@@ -27,6 +27,8 @@ var webdriver *agouti.WebDriver
 
 var sendEmail func(to []string, from string, message []byte) error
 
+var batchExecutor func(func())
+
 func LoadCookieFunctions(
 	loginCookieSetFunc func(w *http.ResponseWriter, r *http.Request),
 	loginCheckFunc func(exec func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request),
@@ -55,4 +57,8 @@ func LoadWebDriver(w *agouti.WebDriver) {
 
 func LoadSendEmailFunction(sm func([]string, string, []byte) error) {
 	sendEmail = sm
+}
+
+func LoadBatchExecutor(queue func(func())) {
+	batchExecutor = queue
 }

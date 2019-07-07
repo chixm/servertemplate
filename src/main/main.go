@@ -38,11 +38,15 @@ func initialize() {
 
 	initializeEmailSender()
 
+	initializeBatch()
+
 	initializeServiceFunctions()
 }
 
 func terminate() {
 	terminateDatabaseConnections()
+
+	terminateBatch()
 
 	terminateRedis()
 
@@ -91,4 +95,5 @@ func initializeServiceFunctions() {
 	service.LoadDbConnections(database)
 	service.LoadRedisConnections(redisConnections)
 	service.LoadSendEmailFunction(SendEmail)
+	service.LoadBatchExecutor(AddToBatchQueue)
 }
