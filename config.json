@@ -36,6 +36,6 @@
 		"smtpSvr": "smtp.gmail.com:587",
 		"user": "*****@gmail.com",
 		"password": "******",
-		"testSendAddr": "******@gmail.com"
+		"testSendAddr": ""
 	}
 }
