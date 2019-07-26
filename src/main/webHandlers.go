@@ -1,4 +1,6 @@
-package service
+package main
+
+// author chixm
 
 import (
 	"html/template"
@@ -33,13 +35,12 @@ func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)),
 	return &services, nil
 }
 
-// HTMLテンプレートによるWebページの表示
+// "HomeHandler HTMLテンプレートによるWebページの表示"
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	showTemplate(w, nil, "../../resources/top.html", "../../resources/parts/header.html")
 }
 
 // 各URLごとの処理を記述
-
 func InformationHandler(w http.ResponseWriter, r *http.Request) {
 	showTemplate(w, nil, "../../resources/information.html", "../../resources/parts/header.html")
 }

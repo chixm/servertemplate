@@ -4,7 +4,6 @@ package main
 
 import (
 	"net/http"
-	"service"
 	"strings"
 	"sync"
 	"time"
@@ -13,11 +12,11 @@ import (
 )
 
 var upgrader websocket.Upgrader
-var messageReceiver *service.WebSocketService
+var messageReceiver *WebSocketService
 
 func initializeWebSocket() {
 	upgrader = websocket.Upgrader{CheckOrigin: checkOriginHost}
-	messageReceiver = &service.WebSocketService{}
+	messageReceiver = &WebSocketService{}
 	messageReceiver.New()
 }
 
