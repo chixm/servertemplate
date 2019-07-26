@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"service"
 )
 
 // Simple login cookie function and cookie validation.
@@ -35,7 +34,7 @@ func validateLoginCookie(r *http.Request) bool {
 func loginCheckInterceptor(exec func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !validateLoginCookie(r) {
-			http.Redirect(w, r, service.URI_LOGIN, http.StatusFound) // 302 redirection
+			http.Redirect(w, r, URI_LOGIN, http.StatusFound) // 302 redirection
 			return
 		}
 		exec(w, r)

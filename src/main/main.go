@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"service"
 	"strconv"
 	"time"
 
@@ -56,7 +55,7 @@ func terminate() {
 // settings of endpoints
 func createServerEndPoints() *mux.Router {
 	r := mux.NewRouter()
-	serviceMap, err := service.LoadServices()
+	serviceMap, err := LoadServices()
 	if err != nil {
 		panic(`Coud not define URL of Server service.` + err.Error())
 	}
@@ -90,10 +89,5 @@ func launchServer(r http.Handler) error {
 
 /** give initialized functions and connections to service. */
 func initializeServiceFunctions() {
-	service.LoadLogger(logger)
-	service.LoadCookieFunctions(setLoginCookie, loginCheckInterceptor, validateLoginCookie)
-	service.LoadDbConnections(database)
-	service.LoadRedisConnections(redisConnections)
-	service.LoadSendEmailFunction(SendEmail)
-	service.LoadBatchExecutor(AddToBatchQueue)
+
 }
