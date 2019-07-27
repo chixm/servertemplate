@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	logrus "github.com/Sirupsen/logrus"
+	logrus "github.com/sirupsen/logrus"
 )
 
 var logger *logrus.Entry
