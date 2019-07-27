@@ -11,7 +11,7 @@ import (
 // instance of the server
 var server *http.Server
 
-const USE_LOG_FILE = false // If this param is true, write out log to /log/application.log file instead of writing to stdout.
+const useLogFile = false // If this param is true, write out log to /log/application.log file instead of writing to stdout.
 
 func main() {
 	initialize()
@@ -23,11 +23,11 @@ func main() {
 
 // initialize systems around this server.
 func initialize() {
-	setupLog(USE_LOG_FILE)
+	setupLog(useLogFile)
 
 	initializeConfig()
 
-	initializeUniqueIdMaker()
+	initializeUniqueIDMaker()
 
 	initializeDatabaseConnections()
 

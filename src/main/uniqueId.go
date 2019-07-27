@@ -23,7 +23,7 @@ var mu = &sync.Mutex{}
 
 var hostName string
 
-func initializeUniqueIdMaker() {
+func initializeUniqueIDMaker() {
 	if h, err := os.Hostname(); err == nil {
 		hostName = h
 	} else {
@@ -31,11 +31,11 @@ func initializeUniqueIdMaker() {
 	}
 }
 
-func createUniqId() string {
-	return createId()
+func createUniqID() string {
+	return createID()
 }
 
-func createId() string {
+func createID() string {
 	// lock for lastTime, lastRand, and chars
 	mu.Lock()
 	defer mu.Unlock()

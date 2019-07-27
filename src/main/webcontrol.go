@@ -9,14 +9,14 @@ import (
 )
 
 const (
-	LOGIN = "login"
+	commandLogin = "login"
 )
 
-func ExecuteWebdriver(command string, w http.ResponseWriter) error {
+func executeWebdriver(command string, w http.ResponseWriter) error {
 	var err error
 	err = nil
 	switch command {
-	case LOGIN:
+	case commandLogin:
 		err = login(w)
 	}
 	return err

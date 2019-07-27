@@ -41,7 +41,7 @@ func runWorker(receiver chan func()) {
 	wg.Wait()
 }
 
-func AddToBatchQueue(action func()) {
+func addToBatchQueue(action func()) {
 	batchChannel <- action
 }
 
