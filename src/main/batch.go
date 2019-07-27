@@ -13,7 +13,7 @@ var batchChannel chan<- func()
 func initializeBatch() {
 	var rc chan func()
 	rc, batchChannel = createChannels()
-	runWorker(rc)
+	go runWorker(rc)
 }
 
 func createChannels() (chan func(), chan<- func()) {
