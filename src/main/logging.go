@@ -23,7 +23,13 @@ func setupLog(useFile bool) {
 	// Configure Log Formats
 	var lg = logrus.New()
 	mode := int32(0777)
-	os.Mkdir(`.`+string(filepath.Separator)+`log`, os.FileMode(mode))
+	if useFile {
+		err := os.Mkdir(`.`+string(filepath.Separator)+`log`, os.FileMode(mode))
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
 	file, err := os.OpenFile(`./log/application.log`, os.O_WRONLY|os.O_APPEND|os.O_CREATE, os.FileMode(mode))
 	if err != nil {
 		log.Fatal(err)

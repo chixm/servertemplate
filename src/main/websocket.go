@@ -37,16 +37,18 @@ func ws(w http.ResponseWriter, r *http.Request) {
 	msgChan := messageListener(conn)
 
 	// if observer or messageLister Ends, Finish WebSocket Connection.
-	for {
-		select {
-		case <-observeChan:
-			wg.Done()
-		case <-msgChan:
-			wg.Done()
-		default:
-			time.Sleep(100 * time.Millisecond)
+	go func() {
+		for {
+			select {
+			case <-observeChan:
+				wg.Done()
+			case <-msgChan:
+				wg.Done()
+			default:
+				time.Sleep(100 * time.Millisecond)
+			}
 		}
-	}
+	}()
 	wg.Wait()
 }
 
