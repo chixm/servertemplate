@@ -62,10 +62,11 @@ func printConfiguration(c *Configuration) {
 
 // ALL Configuration File Contents Structure
 type Configuration struct {
-	Port     int            // server port
-	Database []*DbConfig    //database configuration
-	Redis    []*RedisConfig //redis configuration
-	Email    *EmailConfig   // mail configuration
+	Port         int            // server port
+	Database     []*DbConfig    //database configuration
+	Redis        []*RedisConfig //redis configuration
+	Email        *EmailConfig   // mail configuration
+	ResourcePath string         // where resource directory placed
 }
 
 // basic database configuration

@@ -16,12 +16,12 @@ func executeWebdriver(command string, w http.ResponseWriter) error {
 	var err error = nil
 	switch command {
 	case commandLogin:
-		err = login(w)
+		err = testLogin(w)
 	}
 	return err
 }
 
-func login(w http.ResponseWriter) error {
+func testLogin(w http.ResponseWriter) error {
 	w.Write(wl(`start login`))
 
 	err := webdriver.Start()

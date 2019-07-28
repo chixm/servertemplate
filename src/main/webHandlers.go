@@ -37,12 +37,12 @@ func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)),
 
 // "HomeHandler HTMLテンプレートによるWebページの表示"
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	showTemplate(w, nil, "../../resources/top.html", "../../resources/parts/header.html")
+	showTemplate(w, nil, "/top.html", "/parts/header.html")
 }
 
 // 各URLごとの処理を記述
 func InformationHandler(w http.ResponseWriter, r *http.Request) {
-	showTemplate(w, nil, "../../resources/information.html", "../../resources/parts/header.html")
+	showTemplate(w, nil, "/information.html", "/parts/header.html")
 }
 
 func MatchHandler(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +50,7 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	showTemplate(w, nil, "../../resources/login.html", "../../resources/parts/header.html")
+	showTemplate(w, nil, "/login.html", "/parts/header.html")
 }
 
 func WebdriverHandler(w http.ResponseWriter, r *http.Request) {
@@ -74,7 +74,11 @@ func UserInfoHandler(w http.ResponseWriter, r *http.Request) {
 
 /** Load HTML template in resources directoroy. */
 func showTemplate(w http.ResponseWriter, values interface{}, htmlFilesInResource ...string) {
-	t, err := template.ParseFiles(htmlFilesInResource...)
+	var files []string
+	for _, html := range htmlFilesInResource {
+		files = append(files, config.ResourcePath+html)
+	}
+	t, err := template.ParseFiles(files...)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, `Error on Parsing Template`, http.StatusInternalServerError)
