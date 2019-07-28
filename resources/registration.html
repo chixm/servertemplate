@@ -11,20 +11,20 @@
 
 	<b>User Registration</b>
 
-	<form action="" method="post">
+	<form action="/submitUserRegist" method="post">
 
 		<p></p>
 
 		<table>
 			<tr>
-				<td>Email Address (your account)</td><td><input type="text" id="mailAddress" /> </td>
+				<td>Email Address (your account)</td><td><input type="text" id="mailAddress" name="mailAddress" /> </td>
 			</tr>
 			<tr>
 				<td>
 					Password
 				</td>
 				<td>
-					<input type="password" id="password" />
+					<input type="password" id="password" name="password"/>
 				</td>
 			</tr>
 			<tr>
@@ -32,12 +32,12 @@
 					Confirm Password
 				</td>
 				<td>
-					<input type="password" id="confPassword" />
+					<input type="password" id="confPassword"  name="confPassword"/>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button class="submitButton">SUBMIT</button>
+					<input type="submit" value="SUBMIT" />
 				</td>
 			</tr>
 		</table>

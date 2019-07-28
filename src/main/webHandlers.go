@@ -10,13 +10,14 @@ import (
 
 // URI of endpoints
 const (
-	URI_LOGIN        = `/login`
-	URI_USER_INFO    = `/userInfo`
-	URI_INFORMATION  = `/information`
-	URI_MATCHING     = `/match/{roomId}`
-	URI_SUBMIT_LOGIN = `/submitLogin`
-	URI_WEBDRIVER    = `/browser/{command}`
-	uri_USER_REGIST  = `/userregist`
+	URI_LOGIN              = `/login`
+	URI_USER_INFO          = `/userInfo`
+	URI_INFORMATION        = `/information`
+	URI_MATCHING           = `/match/{roomId}`
+	URI_SUBMIT_LOGIN       = `/submitLogin`
+	URI_WEBDRIVER          = `/browser/{command}`
+	uri_USER_REGIST        = `/userregist`
+	uri_SUBMIT_USER_REGIST = `/submitUserRegist`
 )
 
 /**
@@ -33,7 +34,7 @@ func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)),
 	// loginCheckInterceptor redirects to login page if user was not logged in.
 	services[URI_USER_INFO] = loginCheckInterceptor(UserInfoHandler)
 	services[uri_USER_REGIST] = userRegistrationHandler
-
+	services[uri_SUBMIT_USER_REGIST] = submitUserRegistHandler
 	return &services, nil
 }
 
@@ -57,6 +58,22 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 func userRegistrationHandler(w http.ResponseWriter, r *http.Request) {
 	showTemplate(w, nil, "/registration.html", "/parts/header.html", "/parts/footer.html")
+}
+
+func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	// send confirmation mail to email address.
+	address := r.FormValue("mailAddress")
+	password := r.FormValue("password") // check with confPassword
+
+	logger.Info(`Registration Request from ` + address + " [" + password + "]")
+	var resVal = make(map[string]string)
+	resVal[`address`] = address
+	showTemplate(w, resVal, "/confirmRegistration.html", "/parts/header.html", "/parts/footer.html")
 }
 
 func WebdriverHandler(w http.ResponseWriter, r *http.Request) {
