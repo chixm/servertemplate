@@ -8,6 +8,9 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Server Instance
+var server *http.Server
+
 const useLogFile = false // If this param is true, write out log to /log/application.log file instead of writing to stdout.
 
 func main() {
@@ -73,7 +76,7 @@ func createServerEndPoints() *mux.Router {
 
 // launch server
 func launchServer(r http.Handler) {
-	server := &http.Server{
+	server = &http.Server{
 		Handler:      r,
 		Addr:         "localhost:" + strconv.Itoa(config.Port),
 		WriteTimeout: 15 * time.Second,

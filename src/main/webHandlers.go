@@ -6,18 +6,20 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 )
 
 // URI of endpoints
 const (
-	URI_LOGIN              = `/login`
-	URI_USER_INFO          = `/userInfo`
-	URI_INFORMATION        = `/information`
-	URI_MATCHING           = `/match/{roomId}`
-	URI_SUBMIT_LOGIN       = `/submitLogin`
-	URI_WEBDRIVER          = `/browser/{command}`
-	uri_USER_REGIST        = `/userregist`
-	uri_SUBMIT_USER_REGIST = `/submitUserRegist`
+	URI_LOGIN                = `/login`
+	URI_USER_INFO            = `/userInfo`
+	URI_INFORMATION          = `/information`
+	URI_MATCHING             = `/match/{roomId}`
+	URI_SUBMIT_LOGIN         = `/submitLogin`
+	URI_WEBDRIVER            = `/browser/{command}`
+	uri_USER_REGIST          = `/userregist`
+	uri_SUBMIT_USER_REGIST   = `/submitUserRegist`
+	uri_COMPLETE_USER_REGIST = `/doneUserRegist`
 )
 
 /**
@@ -69,8 +71,33 @@ func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 	// send confirmation mail to email address.
 	address := r.FormValue("mailAddress")
 	password := r.FormValue("password") // check with confPassword
+	confPass := r.FormValue("confPassword")
 
 	logger.Info(`Registration Request from ` + address + " [" + password + "]")
+
+	if !stringMatches(password, confPass) {
+		w.WriteHeader(http.StatusBadRequest) // TODO : make error page
+		return
+	}
+
+	// send mail template with registration link
+	var mailText []byte
+	if mailText, err = readMailTemplate(`registerTemplate.txt`); err != nil {
+		w.WriteHeader(http.StatusInternalServerError) // TODO : make error page
+		return
+	}
+	// create user registration url
+	url := `http://` + server.Addr + uri_COMPLETE_USER_REGIST + `?hash=` + createUniqID()
+
+	sendingText := strings.ReplaceAll(string(mailText), `#url#`, url)
+
+	if err = sendEmail(address, `noreply@chixm.com`, []byte(sendingText)); err != nil {
+		w.WriteHeader(http.StatusInternalServerError) // TODO : make error page
+		return
+	}
+
+	logger.Info(`Sent Registration Email to ` + address)
+
 	var resVal = make(map[string]string)
 	resVal[`address`] = address
 	showTemplate(w, resVal, "/confirmRegistration.html", "/parts/header.html", "/parts/footer.html")
