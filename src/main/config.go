@@ -52,7 +52,7 @@ func loadConfiguration() {
 
 func printConfiguration(c *Configuration) {
 	for _, v := range c.Database {
-		logger.Println(`Loaded Database Configuration of ::` + v.Id + "[" + v.Host + ":" + strconv.Itoa(v.Port) + "]")
+		logger.Println(`Loaded Database Configuration of ::` + v.ID + "[" + v.Host + ":" + strconv.Itoa(v.Port) + "]")
 	}
 	for _, r := range c.Redis {
 		logger.Println(`Loaded Redis Configuration of ::` + r.Id + "[" + r.Host + "]")
@@ -70,7 +70,7 @@ type Configuration struct {
 
 // basic database configuration
 type DbConfig struct {
-	Id       string
+	ID       string
 	Name     string
 	Host     string
 	Port     int

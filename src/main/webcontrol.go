@@ -13,8 +13,7 @@ const (
 )
 
 func executeWebdriver(command string, w http.ResponseWriter) error {
-	var err error
-	err = nil
+	var err error = nil
 	switch command {
 	case commandLogin:
 		err = login(w)
@@ -24,6 +23,7 @@ func executeWebdriver(command string, w http.ResponseWriter) error {
 
 func login(w http.ResponseWriter) error {
 	w.Write(wl(`start login`))
+
 	err := webdriver.Start()
 	if err != nil {
 		w.Write(wl(err.Error()))

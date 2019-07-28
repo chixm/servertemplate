@@ -23,7 +23,7 @@ func initializeDatabaseConnections() {
 		db := sqlx.MustOpen("mysql", dbConf.Username+`:`+dbConf.Password+"@tcp("+dbConf.Host+":"+strconv.Itoa(dbConf.Port)+")/"+dbConf.Name+"?characterEncoding=utf8")
 		db.SetMaxIdleConns(dbConf.MaxIdle)
 		db.SetMaxOpenConns(dbConf.MaxOpen)
-		database[dbConf.Id] = db
+		database[dbConf.ID] = db
 		// Exec Query for test
 		db.QueryRow("select 'test connection' from dual where 1 = $1", 1)
 		logger.Println(`DB Connection Created for ` + dbConf.Name + " User[" + dbConf.Username + "] maxIdle::" + strconv.Itoa(dbConf.MaxIdle) + " maxOpen::" + strconv.Itoa(dbConf.MaxOpen))
