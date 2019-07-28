@@ -7,9 +7,41 @@
 <script type="text/javascript" src="static/js/top.js"></script>
 </head>
 <body>
-{{ template "header.html" }}
+	{{ template "header.html" }}
 
+	<b>User Registration</b>
 
+	<form action="" method="post">
 
-{{ template "footer.html" }}
+		<p></p>
+
+		<table>
+			<tr>
+				<td>Email Address (your account)</td><td><input type="text" id="mailAddress" /> </td>
+			</tr>
+			<tr>
+				<td>
+					Password
+				</td>
+				<td>
+					<input type="password" id="password" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Confirm Password
+				</td>
+				<td>
+					<input type="password" id="confPassword" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button class="submitButton">SUBMIT</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+
+	{{ template "footer.html" }}
 </body>

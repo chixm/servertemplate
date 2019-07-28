@@ -16,6 +16,7 @@ const (
 	URI_MATCHING     = `/match/{roomId}`
 	URI_SUBMIT_LOGIN = `/submitLogin`
 	URI_WEBDRIVER    = `/browser/{command}`
+	uri_USER_REGIST  = `/userregist`
 )
 
 /**
@@ -26,11 +27,12 @@ func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)),
 	services[`/`] = HomeHandler
 	services[URI_INFORMATION] = InformationHandler
 	services[URI_MATCHING] = MatchHandler
-	services[URI_LOGIN] = LoginHandler
-	services[URI_SUBMIT_LOGIN] = SubmitLoginHandler
+	services[URI_LOGIN] = loginHandler
+	services[URI_SUBMIT_LOGIN] = submitLoginHandler
 	services[URI_WEBDRIVER] = WebdriverHandler
 	// loginCheckInterceptor redirects to login page if user was not logged in.
 	services[URI_USER_INFO] = loginCheckInterceptor(UserInfoHandler)
+	services[uri_USER_REGIST] = userRegistrationHandler
 
 	return &services, nil
 }
@@ -49,15 +51,19 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO : going to implement websocket chat.
 }
 
-func LoginHandler(w http.ResponseWriter, r *http.Request) {
+func loginHandler(w http.ResponseWriter, r *http.Request) {
 	showTemplate(w, nil, "/login.html", "/parts/header.html", "/parts/footer.html")
+}
+
+func userRegistrationHandler(w http.ResponseWriter, r *http.Request) {
+	showTemplate(w, nil, "/registration.html", "/parts/header.html", "/parts/footer.html")
 }
 
 func WebdriverHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func SubmitLoginHandler(w http.ResponseWriter, r *http.Request) {
+func submitLoginHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO: validate login
 
 	setLoginCookie(&w, r)
