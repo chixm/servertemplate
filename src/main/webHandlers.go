@@ -37,12 +37,12 @@ func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)),
 
 // "HomeHandler HTMLテンプレートによるWebページの表示"
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	showTemplate(w, nil, "/top.html", "/parts/header.html")
+	showTemplate(w, nil, "/top.html", "/parts/header.html", "/parts/footer.html")
 }
 
 // 各URLごとの処理を記述
 func InformationHandler(w http.ResponseWriter, r *http.Request) {
-	showTemplate(w, nil, "/information.html", "/parts/header.html")
+	showTemplate(w, nil, "/information.html", "/parts/header.html", "/parts/footer.html")
 }
 
 func MatchHandler(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +50,7 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	showTemplate(w, nil, "/login.html", "/parts/header.html")
+	showTemplate(w, nil, "/login.html", "/parts/header.html", "/parts/footer.html")
 }
 
 func WebdriverHandler(w http.ResponseWriter, r *http.Request) {

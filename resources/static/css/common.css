@@ -10,8 +10,19 @@ div .titleText{
 
 .headerBackground {
 	width : 100%;
-	background-color: #000000;
+	background-color: black;
 	height: 30px;
 	margin: -8px -12px 0;
 }
 
+.footer {
+	width: 100%;
+	background-color: black;
+	height: 100px;
+	position: relative;
+    margin: 0px 8px 0px -8px;
+}
+
+.footer p {
+	color: white;
+}
