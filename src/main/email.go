@@ -9,7 +9,7 @@ import (
 // Mail sending function. only send, not to receive.
 // Tested by Sending Gmail from Gmail server.
 
-// tests by sending email
+// tests by sending email when initialized.
 func initializeEmailSender() {
 	if config.Email != nil && config.Email.TestSendAddr != `` {
 		logger.Infoln(`Begin sending Email test`)
@@ -24,6 +24,7 @@ func initializeEmailSender() {
 }
 
 func sendEmails(to []string, from string, message []byte) error {
+	logger.Info(`Email account::` + config.Email.User + "::" + config.Email.Password)
 	auth := smtp.PlainAuth("", config.Email.User, config.Email.Password, config.Email.Smtp)
 	err := smtp.SendMail(config.Email.SmtpSvr, auth, from, to, message)
 	if err != nil {

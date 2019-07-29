@@ -37,6 +37,7 @@ func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)),
 	services[URI_USER_INFO] = loginCheckInterceptor(UserInfoHandler)
 	services[uri_USER_REGIST] = userRegistrationHandler
 	services[uri_SUBMIT_USER_REGIST] = submitUserRegistHandler
+	services[uri_COMPLETE_USER_REGIST] = completeRegistUser
 	return &services, nil
 }
 
@@ -62,6 +63,7 @@ func userRegistrationHandler(w http.ResponseWriter, r *http.Request) {
 	showTemplate(w, nil, "/registration.html", "/parts/header.html", "/parts/footer.html")
 }
 
+// first user registration
 func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -101,6 +103,20 @@ func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 	var resVal = make(map[string]string)
 	resVal[`address`] = address
 	showTemplate(w, resVal, "/confirmRegistration.html", "/parts/header.html", "/parts/footer.html")
+}
+
+/**
+* This URL is accessed from Email.
+ */
+func completeRegistUser(w http.ResponseWriter, r *http.Request) {
+	//　登録処理
+	if err := registerUser(`userId`, `password`); err != nil {
+		w.Write([]byte(`Failed to register user[` + err.Error() + `]`))
+		return
+	}
+	if _, err := w.Write([]byte(`User registration finished.`)); err != nil {
+		panic(err)
+	}
 }
 
 func WebdriverHandler(w http.ResponseWriter, r *http.Request) {

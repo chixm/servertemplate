@@ -33,9 +33,9 @@ func initialize() {
 
 	initializeRedis()
 
-	initializeWebdriver()
-
 	initializeEmailSender()
+
+	initializeWebdriver()
 
 	initializeBatch()
 

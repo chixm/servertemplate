@@ -1,11 +1,11 @@
-
+Subject: ServerTemplate registration confirm.
 Thank you for your registration.
 
 You about to finish registration.
 
 Click the link below to authorize your email account.
 
-<a href="#url#">#url#</a>
+#url#
 
 If you don't have any idea what this mail is.
 Delete this mail and ignore it.
