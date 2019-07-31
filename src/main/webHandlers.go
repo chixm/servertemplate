@@ -3,6 +3,7 @@ package main
 // author chixm
 
 import (
+	"encoding/json"
 	"html/template"
 	"log"
 	"net/http"
@@ -88,8 +89,17 @@ func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError) // TODO : make error page
 		return
 	}
+	randomKey := createUniqID()
+	// define new user
+	user := userBase{ID: address, Password: password}
+	// user registration is ready for an hour
+	if err := setRedisObject(randomKey, user, 60*60); err != nil {
+		w.WriteHeader(http.StatusInternalServerError) // TODO : make error page
+		return
+	}
+
 	// create user registration url
-	url := `http://` + server.Addr + uri_COMPLETE_USER_REGIST + `?hash=` + createUniqID()
+	url := `http://` + server.Addr + uri_COMPLETE_USER_REGIST + `?hash=` + randomKey
 
 	sendingText := strings.ReplaceAll(string(mailText), `#url#`, url)
 
@@ -109,11 +119,33 @@ func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 * This URL is accessed from Email.
  */
 func completeRegistUser(w http.ResponseWriter, r *http.Request) {
+	// get key from query
+	requestKey := r.URL.Query().Get("hash")
 	//　登録処理
 	if err := registerUser(`userId`, `password`); err != nil {
 		w.Write([]byte(`Failed to register user[` + err.Error() + `]`))
 		return
 	}
+	var b []byte
+	var err error
+	if b, err = getRedisObject(requestKey); err != nil {
+		w.Write([]byte(`Failed to register user[` + err.Error() + `]`))
+		return
+	}
+	if len(b) == 0 {
+		w.Write([]byte(`User is not in confirm. Make sure to click Email link in an hour after sent.`))
+		return
+	}
+	user := userBase{}
+	if err = json.Unmarshal(b, &user); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(`Failed to load User Data from temporary Redis`))
+		return
+	}
+
+	// register user to database.
+	logger.Info(`Registered User Info [` + user.ID + `]`)
+
 	if _, err := w.Write([]byte(`User registration finished.`)); err != nil {
 		panic(err)
 	}

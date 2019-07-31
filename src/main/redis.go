@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"strconv"
 	"time"
 
@@ -49,4 +50,29 @@ func terminateRedis() {
 			logger.Println("Redis Close Error::" + err.Error())
 		}
 	}
+}
+
+// Use default setting and write to redis
+func setRedisObject(key string, obj interface{}, second int) error {
+	pool, ok := redisConnections[`default`]
+	if !ok {
+		panic(`No default redis pool found.`)
+	}
+	b, err := json.Marshal(obj)
+	if err != nil {
+		return err
+	}
+	if _, err = pool.Get().Do("set", key, second, b); err != nil {
+		return err
+	}
+	return nil
+}
+
+// get key data from redis
+func getRedisObject(key string) ([]byte, error) {
+	pool, ok := redisConnections[`default`]
+	if !ok {
+		panic(`No default redis pool found.`)
+	}
+	return redis.Bytes(pool.Get().Do("get", key))
 }
