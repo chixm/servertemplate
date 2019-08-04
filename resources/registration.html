@@ -5,40 +5,58 @@
 <title>TOP</title>
 <link href="static/css/common.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="static/js/top.js"></script>
+<script type="text/javascript" src="static/js/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	function validateForm() {
+		var em = $("#mailAddress")[0];
+		if (em.value == "") {
+			alert("Email Address must be filled out");
+			return false;
+		}
+		var ps = $("#password")[0];
+		var ps2 = $("#confPassword")[0];
+
+		if(ps.value == ""){
+			alert("Password must be set.");
+			return false;
+		}
+
+		if(ps.value != ps2.value){
+			alert("Confirmed Password is not same as Password.")
+			return false;
+		}
+		// if all form input was correct. return true to submit
+		return true;
+	};
+</script>
 </head>
 <body>
 	{{ template "header.html" }}
 
 	<b>User Registration</b>
 
-	<form action="/submitUserRegist" method="post">
+	<form id="rform" action="/submitUserRegist" method="post"
+		onsubmit="return validateForm();">
 
 		<p></p>
 
 		<table>
 			<tr>
-				<td>Email Address (your account)</td><td><input type="text" id="mailAddress" name="mailAddress" /> </td>
-			</tr>
-			<tr>
-				<td>
-					Password
-				</td>
-				<td>
-					<input type="password" id="password" name="password"/>
+				<td>Email Address (your account)</td>
+				<td><input type="text" id="mailAddress" name="mailAddress" />
 				</td>
 			</tr>
 			<tr>
-				<td>
-					Confirm Password
-				</td>
-				<td>
-					<input type="password" id="confPassword"  name="confPassword"/>
-				</td>
+				<td>Password</td>
+				<td><input type="password" id="password" name="password" /></td>
 			</tr>
 			<tr>
-				<td colspan="2">
-					<input type="submit" value="SUBMIT" />
-				</td>
+				<td>Confirm Password</td>
+				<td><input type="password" id="confPassword"
+					name="confPassword" /></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="SUBMIT" /></td>
 			</tr>
 		</table>
 	</form>

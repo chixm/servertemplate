@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"strconv"
 	"time"
 
@@ -18,13 +19,15 @@ func initializeRedis() {
 		pool := makeConnectionPool(r.Host, r.Port, r.MaxIdle, r.MaxActive)
 		redisConnections[r.Id] = pool
 
+		c := pool.Get()
+		defer c.Close()
 		// test connection
-		_, err := pool.Get().Do("set", "test", "testvalue")
+		_, err := c.Do("set", "test", "testvalue")
 		if err != nil {
 			panic(err)
 		}
 		logger.Println("Tested Redis Connection of " + r.Host)
-		rep, err := redis.String(pool.Get().Do("get", "test"))
+		rep, err := redis.String(c.Do("get", "test"))
 		if err != nil {
 			panic(err)
 		}
@@ -62,7 +65,11 @@ func setRedisObject(key string, obj interface{}, second int) error {
 	if err != nil {
 		return err
 	}
-	if _, err = pool.Get().Do("set", key, second, b); err != nil {
+	c := pool.Get()
+	defer c.Close()
+	log.Println(pool.Stats())
+	// Redis SET command with EX (expire)
+	if _, err = c.Do("set", key, string(b), `EX`, second); err != nil {
 		return err
 	}
 	return nil
@@ -74,5 +81,7 @@ func getRedisObject(key string) ([]byte, error) {
 	if !ok {
 		panic(`No default redis pool found.`)
 	}
-	return redis.Bytes(pool.Get().Do("get", key))
+	c := pool.Get()
+	defer c.Close()
+	return redis.Bytes(c.Do("get", key))
 }

@@ -94,6 +94,7 @@ func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 	user := userBase{ID: address, Password: password}
 	// user registration is ready for an hour
 	if err := setRedisObject(randomKey, user, 60*60); err != nil {
+		logger.Errorln(err)
 		w.WriteHeader(http.StatusInternalServerError) // TODO : make error page
 		return
 	}
