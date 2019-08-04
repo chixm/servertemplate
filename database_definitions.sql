@@ -1,4 +1,5 @@
 CREATE SCHEMA `atagosample` ;
+ALTER SCHEMA `atagosample`  DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci ;
 
 CREATE TABLE `atagosample`.`user` (
   `userID` VARCHAR(200) NOT NULL,

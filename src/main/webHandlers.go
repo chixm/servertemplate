@@ -76,6 +76,8 @@ func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password") // check with confPassword
 	confPass := r.FormValue("confPassword")
 
+	// TODO: check if adress is already registered from user table.
+
 	logger.Info(`Registration Request from ` + address + " [" + password + "]")
 
 	if !stringMatches(password, confPass) {

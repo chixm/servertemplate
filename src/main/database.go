@@ -20,7 +20,7 @@ func initializeDatabaseConnections() {
 	database = make(map[string]*sqlx.DB)
 	for _, dbConf := range config.Database {
 		// Connecting to MySQL server.
-		db := sqlx.MustOpen("mysql", dbConf.Username+`:`+dbConf.Password+"@tcp("+dbConf.Host+":"+strconv.Itoa(dbConf.Port)+")/"+dbConf.Name+"?characterEncoding=utf8")
+		db := sqlx.MustOpen("mysql", dbConf.Username+`:`+dbConf.Password+"@tcp("+dbConf.Host+":"+strconv.Itoa(dbConf.Port)+")/"+dbConf.Name)
 		db.SetMaxIdleConns(dbConf.MaxIdle)
 		db.SetMaxOpenConns(dbConf.MaxOpen)
 		database[dbConf.ID] = db
