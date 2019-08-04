@@ -12,12 +12,12 @@ import (
 
 // URI of endpoints
 const (
-	URI_LOGIN                = `/login`
-	URI_USER_INFO            = `/userInfo`
-	URI_INFORMATION          = `/information`
-	URI_MATCHING             = `/match/{roomId}`
-	URI_SUBMIT_LOGIN         = `/submitLogin`
-	URI_WEBDRIVER            = `/browser/{command}`
+	uri_LOGIN                = `/login`
+	uri_USER_INFO            = `/userInfo`
+	uri_INFORMATION          = `/information`
+	uri_MATCHING             = `/match/{roomId}`
+	uri_SUBMIT_LOGIN         = `/submitLogin`
+	uri_WEBDRIVER            = `/browser/{command}`
 	uri_USER_REGIST          = `/userregist`
 	uri_SUBMIT_USER_REGIST   = `/submitUserRegist`
 	uri_COMPLETE_USER_REGIST = `/doneUserRegist`
@@ -29,13 +29,13 @@ const (
 func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)), error) {
 	services := make(map[string]func(w http.ResponseWriter, r *http.Request))
 	services[`/`] = HomeHandler
-	services[URI_INFORMATION] = InformationHandler
-	services[URI_MATCHING] = MatchHandler
-	services[URI_LOGIN] = loginHandler
-	services[URI_SUBMIT_LOGIN] = submitLoginHandler
-	services[URI_WEBDRIVER] = WebdriverHandler
+	services[uri_INFORMATION] = InformationHandler
+	services[uri_MATCHING] = MatchHandler
+	services[uri_LOGIN] = loginHandler
+	services[uri_SUBMIT_LOGIN] = submitLoginHandler
+	services[uri_WEBDRIVER] = WebdriverHandler
 	// loginCheckInterceptor redirects to login page if user was not logged in.
-	services[URI_USER_INFO] = loginCheckInterceptor(UserInfoHandler)
+	services[uri_USER_INFO] = loginCheckInterceptor(UserInfoHandler)
 	services[uri_USER_REGIST] = userRegistrationHandler
 	services[uri_SUBMIT_USER_REGIST] = submitUserRegistHandler
 	services[uri_COMPLETE_USER_REGIST] = completeRegistUser
@@ -121,11 +121,7 @@ func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 func completeRegistUser(w http.ResponseWriter, r *http.Request) {
 	// get key from query
 	requestKey := r.URL.Query().Get("hash")
-	//　登録処理
-	if err := registerUser(`userId`, `password`); err != nil {
-		w.Write([]byte(`Failed to register user[` + err.Error() + `]`))
-		return
-	}
+
 	var b []byte
 	var err error
 	if b, err = getRedisObject(requestKey); err != nil {
@@ -144,6 +140,10 @@ func completeRegistUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// register user to database.
+	if err := registerUser(user.ID, user.Password); err != nil {
+		w.Write([]byte(`Failed to register user[` + err.Error() + `]`))
+		return
+	}
 	logger.Info(`Registered User Info [` + user.ID + `]`)
 
 	if _, err := w.Write([]byte(`User registration finished.`)); err != nil {
@@ -162,7 +162,7 @@ func submitLoginHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println(`Login Cookie has been set`)
 
 	// If user succeeded to login. Go to UserInfo page.
-	http.Redirect(w, r, URI_USER_INFO, http.StatusFound)
+	http.Redirect(w, r, uri_USER_INFO, http.StatusFound)
 }
 
 // Must be logged In.

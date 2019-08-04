@@ -42,7 +42,7 @@ func terminateDatabaseConnections() {
 
 func registerUser(userID, password string) error {
 	db := database[`masterDB`]
-	_, err := db.Exec(`insert into user(userid, password) value (?,?,)`, userID, password)
+	_, err := db.Exec(`insert into user(userID, password) value (?,?)`, userID, password)
 	if err != nil {
 		return err
 	}
