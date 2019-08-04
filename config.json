@@ -2,7 +2,7 @@
 	"port" : 8080,
 	"database": [
 		{
-			"id": "masterBD",
+			"id": "masterDB",
 			"name": "test",
 			"host": "localhost",
 			"port": 3306,
