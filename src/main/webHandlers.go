@@ -4,6 +4,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"html/template"
 	"log"
 	"net/http"
@@ -68,7 +69,7 @@ func userRegistrationHandler(w http.ResponseWriter, r *http.Request) {
 func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		showErrorPage(w, err, `Unable to get your email address or password information. Try again later.`)
 		return
 	}
 	// send confirmation mail to email address.
@@ -81,14 +82,14 @@ func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Info(`Registration Request from ` + address + " [" + password + "]")
 
 	if !stringMatches(password, confPass) {
-		w.WriteHeader(http.StatusBadRequest) // TODO : make error page
+		showErrorPage(w, errors.New(`Password Confirmed is not correct.`), `Password must be same as confirmed ones.`)
 		return
 	}
 
 	// send mail template with registration link
 	var mailText []byte
 	if mailText, err = readMailTemplate(`registerTemplate.txt`); err != nil {
-		w.WriteHeader(http.StatusInternalServerError) // TODO : make error page
+		showErrorPage(w, err, `Error on creating Registration mail template. Try again later.`)
 		return
 	}
 	randomKey := createUniqID()
@@ -96,8 +97,7 @@ func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 	user := userBase{ID: address, Password: password}
 	// user registration is ready for an hour
 	if err := setRedisObject(randomKey, user, 60*60); err != nil {
-		logger.Errorln(err)
-		w.WriteHeader(http.StatusInternalServerError) // TODO : make error page
+		showErrorPage(w, err, `Failed to register to Data keyvalue store. Try again later.`)
 		return
 	}
 
@@ -107,7 +107,7 @@ func submitUserRegistHandler(w http.ResponseWriter, r *http.Request) {
 	sendingText := strings.ReplaceAll(string(mailText), `#url#`, url)
 
 	if err = sendEmail(address, `noreply@chixm.com`, []byte(sendingText)); err != nil {
-		w.WriteHeader(http.StatusInternalServerError) // TODO : make error page
+		showErrorPage(w, err, `Failed to send registration email to address `+address)
 		return
 	}
 
@@ -128,23 +128,23 @@ func completeRegistUser(w http.ResponseWriter, r *http.Request) {
 	var b []byte
 	var err error
 	if b, err = getRedisObject(requestKey); err != nil {
-		w.Write([]byte(`Failed to register user[` + err.Error() + `]`))
+		showErrorPage(w, err, `Failed to register user`)
 		return
 	}
+
 	if len(b) == 0 {
-		w.Write([]byte(`User is not in confirm. Make sure to click Email link in an hour after sent.`))
+		showErrorPage(w, errors.New(`No record found.`), `User is not in confirm. Make sure to click Email link in an hour after sent.`)
 		return
 	}
 	user := userBase{}
 	if err = json.Unmarshal(b, &user); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`Failed to load User Data from temporary Redis`))
+		showErrorPage(w, err, `Failed to load User Data from email hash`)
 		return
 	}
 
 	// register user to database.
 	if err := registerUser(user.ID, user.Password); err != nil {
-		w.Write([]byte(`Failed to register user[` + err.Error() + `]`))
+		showErrorPage(w, err, `Failed to register user`)
 		return
 	}
 	logger.Info(`Registered User Info [` + user.ID + `]`)
@@ -186,4 +186,19 @@ func showTemplate(w http.ResponseWriter, values interface{}, htmlFilesInResource
 		return
 	}
 	t.Execute(w, values)
+}
+
+func showErrorPage(w http.ResponseWriter, err error, msg string) {
+	var values = make(map[string]interface{})
+	values[`errMsg`] = error.Error
+	values[`message`] = msg
+	logger.Errorln(err)
+	w.WriteHeader(http.StatusInternalServerError)
+	t, e := template.ParseFiles("/error.html", "/parts/header.html", "/parts/footer.html")
+	if e != nil {
+		logger.Errorln(e)
+	}
+	if e := t.Execute(w, values); e != nil {
+		logger.Errorln(e)
+	}
 }
