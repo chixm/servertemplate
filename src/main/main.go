@@ -84,7 +84,8 @@ func launchServer(r http.Handler) {
 	}
 
 	logger.Info("Execute Server ::" + server.Addr)
-	err := server.ListenAndServe()
+	// err := server.ListenAndServe()
+	err := server.ListenAndServeTLS(config.ResourcePath+`/cert/cm.crt`, config.ResourcePath+`/cert/cm.key`)
 	if err != nil {
 		panic(err)
 	}
