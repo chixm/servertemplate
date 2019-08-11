@@ -1,8 +1,15 @@
 <!-- service worker header -->
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-            .register('/static/chixmsw.js')
-            .then(function () { console.log("Service Worker Registered"); });
+<script type="text/javascript">
+    window.onload = function () {
+        console.log("Onload function of serviceworker registration.");
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('/sw', { scope: "/" })
+                .then(function () { console.log("Service Worker Registered"); })
+                .catch(function (error) {
+                    // Something went wrong during registration. The service-worker.js file
+                    console.log("Failed to register service worker.", error);
+                });
+        }
     }
 </script>
