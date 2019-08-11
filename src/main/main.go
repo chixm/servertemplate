@@ -39,7 +39,6 @@ func initialize() {
 
 	initializeBatch()
 
-	initializeServiceFunctions()
 }
 
 func terminate() {
@@ -89,9 +88,4 @@ func launchServer(r http.Handler) {
 	if err != nil {
 		panic(err)
 	}
-}
-
-/** give initialized functions and connections to service. */
-func initializeServiceFunctions() {
-
 }

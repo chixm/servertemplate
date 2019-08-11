@@ -20,6 +20,8 @@ func initializeEmailSender() {
 			panic(err)
 		}
 		logger.Infoln(`End sending Email test`)
+	} else {
+		logger.Infoln(`Skipped Email Sending Test, since Email TestSendAddr is empty.`)
 	}
 }
 
