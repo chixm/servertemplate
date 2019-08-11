@@ -36,7 +36,7 @@ func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)),
 	services[uri_SUBMIT_LOGIN] = submitLoginHandler
 	services[uri_WEBDRIVER] = WebdriverHandler
 	// loginCheckInterceptor redirects to login page if user was not logged in.
-	services[uri_USER_INFO] = loginCheckInterceptor(UserInfoHandler)
+	services[uri_USER_INFO] = loginCheckInterceptor(userInfoHandler)
 	services[uri_USER_REGIST] = userRegistrationHandler
 	services[uri_SUBMIT_USER_REGIST] = submitUserRegistHandler
 	services[uri_COMPLETE_USER_REGIST] = completeRegistUser
@@ -149,9 +149,7 @@ func completeRegistUser(w http.ResponseWriter, r *http.Request) {
 	}
 	logger.Info(`Registered User Info [` + user.ID + `]`)
 
-	if _, err := w.Write([]byte(`User registration finished.`)); err != nil {
-		panic(err)
-	}
+	showTemplate(w, user.ID, "finishRegistration.html", "/parts/header.html", "/parts/footer.html")
 }
 
 func WebdriverHandler(w http.ResponseWriter, r *http.Request) {
@@ -169,8 +167,11 @@ func submitLoginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Must be logged In.
-func UserInfoHandler(w http.ResponseWriter, r *http.Request) {
+func userInfoHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println(`User Reached to The page Handler with logged in state.`)
+	// register service worker when user reached to logged in page.
+
+	showTemplate(w, r, "/userInfo.html", "/parts/sw.html", "/parts/header.html", "/parts/footer.html")
 }
 
 /** Load HTML template in resources directoroy. */
