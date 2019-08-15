@@ -16,9 +16,9 @@ func initializeWebdriver() {
 
 	err := webdriver.Start()
 	if err != nil {
-		logger.Debug(err)
+		logger.Error(err)
 	}
-	defer webdriver.Stop()
+	defer stopWebDriver()
 
 	browser, err := webdriver.NewPage()
 	if err != nil {
@@ -32,4 +32,10 @@ func initializeWebdriver() {
 	}
 	html, _ := browser.HTML()
 	logger.Debug(html)
+}
+
+func stopWebDriver() {
+	if err := webdriver.Stop(); err != nil {
+		logger.Error(err)
+	}
 }

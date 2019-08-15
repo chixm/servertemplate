@@ -204,7 +204,10 @@ func showTemplate(w http.ResponseWriter, values interface{}, htmlFilesInResource
 		http.Error(w, `Error on Parsing Template`, http.StatusInternalServerError)
 		return
 	}
-	t.Execute(w, values)
+	err = t.Execute(w, values)
+	if err != nil{
+		logger.Error(err)
+	}
 }
 
 func showErrorPage(w http.ResponseWriter, err error, msg string) {
