@@ -106,8 +106,5 @@ func messageListener(conn *websocket.Conn) <-chan int {
 // check whether websocket is connected from right host
 func checkOriginHost(r *http.Request) bool {
 	// for example, you can't connect this websocket server from google.
-	if strings.Contains(r.Host, `google.com`) {
-		return false
-	}
-	return true
+	return strings.Contains(r.Host, `google.com`)
 }

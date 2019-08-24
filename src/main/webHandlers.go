@@ -16,6 +16,7 @@ const (
 	uri_LOGIN                = `/login`
 	uri_USER_INFO            = `/userInfo`
 	uri_SERVICE_WORKER       = `/sw`
+	uri_WEB_WORKER           = `/ww`
 	uri_INFORMATION          = `/information`
 	uri_MATCHING             = `/match/{roomId}`
 	uri_SUBMIT_LOGIN         = `/submitLogin`
@@ -39,6 +40,7 @@ func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)),
 	// loginCheckInterceptor redirects to login page if user was not logged in.
 	services[uri_USER_INFO] = loginCheckInterceptor(userInfoHandler)
 	services[uri_SERVICE_WORKER] = serviceWorkerHandler
+	services[uri_WEB_WORKER] = webWorkerHandler
 	services[uri_USER_REGIST] = userRegistrationHandler
 	services[uri_SUBMIT_USER_REGIST] = submitUserRegistHandler
 	services[uri_COMPLETE_USER_REGIST] = completeRegistUser
@@ -182,9 +184,22 @@ func userInfoHandler(w http.ResponseWriter, r *http.Request) {
 func serviceWorkerHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/x-javascript")
 
-	js, err := readTextFile(`/sw/chixmsw.js`)
+	js, err := readTextFile(`/worker/chixmsw.js`)
 	if err != nil {
 		showErrorPage(w, err, `Failed to load Service worker file.`)
+	}
+
+	if _, err := w.Write([]byte(js)); err != nil {
+		log.Println(err)
+	}
+}
+
+func webWorkerHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/x-javascript")
+
+	js, err := readTextFile(`/worker/chixmww.js`)
+	if err != nil {
+		showErrorPage(w, err, `Failed to load Web Worker file.`)
 	}
 
 	if _, err := w.Write([]byte(js)); err != nil {
@@ -205,7 +220,7 @@ func showTemplate(w http.ResponseWriter, values interface{}, htmlFilesInResource
 		return
 	}
 	err = t.Execute(w, values)
-	if err != nil{
+	if err != nil {
 		logger.Error(err)
 	}
 }
