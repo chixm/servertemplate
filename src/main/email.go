@@ -13,7 +13,7 @@ func initializeEmailSender() {
 		logger.Infoln(`Begin sending Email test`)
 		to := []string{config.Email.TestSendAddr}
 		msg := []byte("Subject: test from ATAGO \r\n\r\n testing send mail")
-		err := SendEmail(to, "template", msg)
+		err := sendEmail(to, "template", msg)
 		if err != nil {
 			panic(err)
 		}
@@ -21,7 +21,7 @@ func initializeEmailSender() {
 	}
 }
 
-func SendEmail(to []string, from string, message []byte) error {
+func sendEmail(to []string, from string, message []byte) error {
 	auth := smtp.PlainAuth("", config.Email.User, config.Email.Password, config.Email.Smtp)
 	err := smtp.SendMail(config.Email.SmtpSvr, auth, from, to, message)
 	if err != nil {

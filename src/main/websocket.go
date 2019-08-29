@@ -12,11 +12,11 @@ import (
 )
 
 var upgrader websocket.Upgrader
-var messageReceiver *WebSocketService
+var messageReceiver *webSocketService
 
 func initializeWebSocket() {
 	upgrader = websocket.Upgrader{CheckOrigin: checkOriginHost}
-	messageReceiver = &WebSocketService{}
+	messageReceiver = &webSocketService{}
 	messageReceiver.New()
 }
 

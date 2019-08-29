@@ -28,7 +28,7 @@ func pongMessageReceiver(conn *websocket.Conn, msg []byte) {
 
 }
 
-type WebSocketService struct {
+type webSocketService struct {
 	TextMessageReceiver   func(conn *websocket.Conn, msg []byte)
 	BinaryMessageReceiver func(conn *websocket.Conn, msg []byte)
 	PingMessageReceiver   func(conn *websocket.Conn, msg []byte)
@@ -36,7 +36,7 @@ type WebSocketService struct {
 }
 
 // setting default messaging functions
-func (c *WebSocketService) New() *WebSocketService {
+func (c *webSocketService) New() *webSocketService {
 	c.TextMessageReceiver = textMessageReceiver
 	c.BinaryMessageReceiver = binaryMessageReceiver
 	c.PingMessageReceiver = pingMessageReceiver
