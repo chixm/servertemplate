@@ -49,7 +49,7 @@ func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)),
 
 // "HomeHandler HTMLテンプレートによるWebページの表示"
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	showTemplate(w, nil, "/top.html", "/parts/header.html", "/parts/footer.html")
+	showTemplate(w, nil, "/top.html", "/parts/header.html", "/parts/ww.html", "/parts/footer.html")
 }
 
 // 各URLごとの処理を記述

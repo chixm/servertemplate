@@ -6,6 +6,8 @@
 <link href="static/css/common.css" rel="stylesheet" type="text/css">
 <link href="static/css/top.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="static/js/top.js"></script>
+<script type="text/javascript" src="static/js/jquery-3.4.1.js"></script>
+{{ template "ww.html" }}
 </head>
 <body>
 
@@ -16,6 +18,15 @@
 <h1>Something Great In the Page</h1>
 
 </div>
+
+<div>
+    Web worker Action
+    No1::<input type="text" id="number1" />
+    No2::<input type="text" id="number2" />
+
+    <div class="result"></div>
+</div>
+
 
 
 {{ template "footer.html" }}
