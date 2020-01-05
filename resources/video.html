@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Registration Completed</title>
+<link href="static/css/common.css" rel="stylesheet" type="text/css">
+<link href="static/css/video.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="static/js/jquery-3.4.1.js" ></script>
+<script type="text/javascript">
+    let localVideo;
+    let localStream;
+
+    $(document).ready(function(){
+        localVideo = document.getElementById('mainVideo');
+    });
+    // start local video
+    function startVideo() {
+        navigator.mediaDevices.getUserMedia({video: true, audio: false})
+        .then(function (stream) { // success
+            localStream = stream;
+            if(!localVideo){
+                console.log("No localVideo found.");
+            }
+            localVideo.srcObject = localStream;
+        }).catch(function (error) { // error
+            console.error('mediaDevice.getUserMedia() error:', error);
+            return;
+        });
+    }
+
+    function stopVideo(){
+        localVideo.pause();
+    }
+</script>
+</head>
+<body>
+{{ template "header.html" }}
+
+<h1>Local Video</h1>
+<video class="main-video" id="mainVideo" autoplay>
+
+</video>
+
+<button onclick="javascript: startVideo();">START</button>
+
+<button onclick="javascript: stopVideo();">STOP</button>
+
+{{ template "footer.html" }}
+</body>
+</html>
