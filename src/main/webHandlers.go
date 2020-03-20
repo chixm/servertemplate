@@ -3,6 +3,7 @@ package main
 // author chixm
 
 import (
+	"bytes"
 	"html/template"
 	"log"
 	"net/http"
@@ -10,12 +11,13 @@ import (
 
 // URI of endpoints
 const (
-	URI_LOGIN        = `/login`
-	URI_USER_INFO    = `/userInfo`
-	URI_INFORMATION  = `/information`
-	URI_MATCHING     = `/match/{roomId}`
-	URI_SUBMIT_LOGIN = `/submitLogin`
-	URI_WEBDRIVER    = `/browser/{command}`
+	URI_LOGIN          = `/login`
+	URI_USER_INFO      = `/userInfo`
+	URI_INFORMATION    = `/information`
+	URI_MATCHING       = `/match/{roomId}`
+	URI_SUBMIT_LOGIN   = `/submitLogin`
+	URI_WEBDRIVER      = `/browser/{command}`
+	URU_REQUEST_VIEWER = `/request/view`
 )
 
 /**
@@ -31,7 +33,7 @@ func LoadServices() (*(map[string]func(w http.ResponseWriter, r *http.Request)),
 	services[URI_WEBDRIVER] = WebdriverHandler
 	// loginCheckInterceptor redirects to login page if user was not logged in.
 	services[URI_USER_INFO] = loginCheckInterceptor(UserInfoHandler)
-
+	services[URU_REQUEST_VIEWER] = requestViewHander
 	return &services, nil
 }
 
@@ -51,6 +53,21 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	showTemplate(w, nil, "../../resources/login.html", "../../resources/parts/header.html")
+}
+
+// Write out current Request headers and params to know what is sent to server.
+// This function is to develop client application or test API from external application.
+func requestViewHander(w http.ResponseWriter, r *http.Request) {
+	bufbody := new(bytes.Buffer)
+	if _, err := bufbody.ReadFrom(r.Body); err != nil {
+		log.Println(err)
+	}
+	body := bufbody.String()
+	disp := make(map[string]interface{})
+	disp[`method`] = r.Method
+	disp[`header`] = r.Header
+	disp[`body`] = body
+	showTemplate(w, disp, "../../resources/httprequest.html", "../../resources/parts/header.html")
 }
 
 func WebdriverHandler(w http.ResponseWriter, r *http.Request) {

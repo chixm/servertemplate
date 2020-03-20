@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TOP</title>
+<link href="static/css/common.css" rel="stylesheet" type="text/css">
+<link href="static/css/top.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="static/js/top.js"></script>
+</head>
+<body>
+
+{{ template "header.html" }}
+
+<div>
+
+<h1>HTTP Request Viewer</h1>
+template example
+<br>
+
+<h3>METHOD</h3>
+{{.method}}
+
+<h3>HTTP HEADERS</h3>
+<ul>
+    <li>{{.header}}</li>
+</ul>
+
+<h3>REQUEST BODY</h3>
+<p>{{.body}}</p>
+
+</div>
+</body>
+</html>
