@@ -1,0 +1,40 @@
+{
+  "name": "servertemplate",
+  "version": "1.0.0",
+  "description": "All in one Template Assembled with GOlang ",
+  "private": true,
+  "scripts": {
+    "test": "test",
+    "build": "npm run buildGobin && npm run tsc && npm run webpack",
+    "buildGobin": "go build -o atago.exe ./...",
+    "webpack": "webpack",
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chixm/servertemplate.git"
+  },
+  "keywords": [
+    "Golang",
+    "React"
+  ],
+  "author": "Chixm",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chixm/servertemplate/issues"
+  },
+  "homepage": "https://github.com/chixm/servertemplate#readme",
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "awesome-typescript-loader": "^5.2.1",
+    "source-map-loader": "^1.0.0",
+    "typescript": "^3.9.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
+}
