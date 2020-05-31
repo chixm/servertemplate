@@ -37,6 +37,9 @@ this project is developed in Windows PC. So the scripts in package.json is basic
 ## To Run Server
 To run server. Just run Executable named atago.exe in src/main directory.
 
+by default setting, port 80 is listening for request. Set URL below to the browser and see Web page showing. 
+http://localhost/
+
 ## About Golang
 Golang version 1.14 is used to develop.
 
