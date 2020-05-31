@@ -22,18 +22,18 @@ var MyButton = /** @class */ (function (_super) {
     __extends(MyButton, _super);
     function MyButton(props) {
         var _this = _super.call(this, props) || this;
+        _this.onClickAction = function () {
+            alert("clicked! " + _this.state.pressedCount + " times.");
+            _this.setState({ pressedCount: _this.state.pressedCount + 1 });
+        };
+        _this.render = function () {
+            return (react_1.default.createElement("div", null,
+                react_1.default.createElement("button", { onClick: _this.onClickAction }, _this.props.name)));
+        };
         _this.state = { pressedCount: 0 };
         return _this;
     }
-    MyButton.prototype.onClickAction = function () {
-        alert("clicked! " + this.state.pressedCount + " times.");
-        this.setState({ pressedCount: this.state.pressedCount + 1 });
-    };
-    MyButton.prototype.render = function () {
-        return (react_1.default.createElement("div", null,
-            react_1.default.createElement("button", { onClick: this.onClickAction }, this.props.name)));
-    };
     return MyButton;
 }(react_1.default.Component));
 react_dom_1.default.render(react_1.default.createElement(MyButton, { name: "Count Up" }), document.getElementById('original-button'));
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibXlidXR0b24uanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi9zcmMvdmlldy9teWJ1dHRvbi50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsZ0RBQTBCO0FBQzFCLHdEQUFpQztBQVdqQztJQUF1Qiw0QkFBNkM7SUFDaEUsa0JBQVksS0FBb0I7UUFBaEMsWUFDSSxrQkFBTSxLQUFLLENBQUMsU0FFZjtRQURHLEtBQUksQ0FBQyxLQUFLLEdBQUcsRUFBQyxZQUFZLEVBQUMsQ0FBQyxFQUFDLENBQUM7O0lBQ2xDLENBQUM7SUFFRCxnQ0FBYSxHQUFiO1FBQ0ksS0FBSyxDQUFDLGNBQVksSUFBSSxDQUFDLEtBQUssQ0FBQyxZQUFZLFlBQVMsQ0FBQyxDQUFDO1FBQ3BELElBQUksQ0FBQyxRQUFRLENBQUMsRUFBQyxZQUFZLEVBQUUsSUFBSSxDQUFDLEtBQUssQ0FBQyxZQUFZLEdBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztJQUMvRCxDQUFDO0lBRUQseUJBQU0sR0FBTjtRQUNJLE9BQU8sQ0FDSDtZQUNJLDBDQUFRLE9BQU8sRUFBRSxJQUFJLENBQUMsYUFBYSxJQUFHLElBQUksQ0FBQyxLQUFLLENBQUMsSUFBSSxDQUFVLENBQzdELENBQ1QsQ0FBQTtJQUNMLENBQUM7SUFDTCxlQUFDO0FBQUQsQ0FBQyxBQWxCRCxDQUF1QixlQUFLLENBQUMsU0FBUyxHQWtCckM7QUFFRCxtQkFBUSxDQUFDLE1BQU0sQ0FBQyw4QkFBQyxRQUFRLElBQUMsSUFBSSxFQUFFLFVBQVUsR0FBYSxFQUFFLFFBQVEsQ0FBQyxjQUFjLENBQUMsaUJBQWlCLENBQUMsQ0FBQyxDQUFDIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibXlidXR0b24uanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi9zcmMvdmlldy9teWJ1dHRvbi50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsZ0RBQTBCO0FBQzFCLHdEQUFpQztBQVdqQztJQUF1Qiw0QkFBNkM7SUFDaEUsa0JBQVksS0FBb0I7UUFBaEMsWUFDSSxrQkFBTSxLQUFLLENBQUMsU0FFZjtRQUVELG1CQUFhLEdBQWU7WUFDeEIsS0FBSyxDQUFDLGNBQVksS0FBSSxDQUFDLEtBQUssQ0FBQyxZQUFZLFlBQVMsQ0FBQyxDQUFDO1lBQ3BELEtBQUksQ0FBQyxRQUFRLENBQUMsRUFBQyxZQUFZLEVBQUUsS0FBSSxDQUFDLEtBQUssQ0FBQyxZQUFZLEdBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztRQUMvRCxDQUFDLENBQUE7UUFFRCxZQUFNLEdBQUc7WUFDTCxPQUFPLENBQ0g7Z0JBQ0ksMENBQVEsT0FBTyxFQUFFLEtBQUksQ0FBQyxhQUFhLElBQUcsS0FBSSxDQUFDLEtBQUssQ0FBQyxJQUFJLENBQVUsQ0FDN0QsQ0FDVCxDQUFBO1FBQ0wsQ0FBQyxDQUFBO1FBZEcsS0FBSSxDQUFDLEtBQUssR0FBRyxFQUFDLFlBQVksRUFBQyxDQUFDLEVBQUMsQ0FBQzs7SUFDbEMsQ0FBQztJQWNMLGVBQUM7QUFBRCxDQUFDLEFBbEJELENBQXVCLGVBQUssQ0FBQyxTQUFTLEdBa0JyQztBQUVELG1CQUFRLENBQUMsTUFBTSxDQUFDLDhCQUFDLFFBQVEsSUFBQyxJQUFJLEVBQUUsVUFBVSxHQUFhLEVBQUUsUUFBUSxDQUFDLGNBQWMsQ0FBQyxpQkFBaUIsQ0FBQyxDQUFDLENBQUMifQ==

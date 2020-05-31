@@ -6,7 +6,7 @@
   "scripts": {
     "test": "test",
     "build": "npm run buildGobin && npm run tsc && npm run webpack",
-    "buildGobin": "go build -o atago.exe ./...",
+    "buildGobin": "go build -o ./src/main/atago.exe ./...",
     "webpack": "webpack",
     "tsc": "tsc"
   },

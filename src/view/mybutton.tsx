@@ -16,12 +16,12 @@ class MyButton extends React.Component<MyButtonProps, MyButtonState> {
         this.state = {pressedCount:0};
     }
 
-    onClickAction() {
+    onClickAction: () => void = () => {
         alert(`clicked! ${this.state.pressedCount} times.`);
         this.setState({pressedCount: this.state.pressedCount +1 });
     }
 
-    render() {
+    render = () => {
         return (
             <div>
                 <button onClick={this.onClickAction}>{this.props.name}</button>

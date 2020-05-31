@@ -35,7 +35,7 @@ to create server binary.
 this project is developed in Windows PC. So the scripts in package.json is basically work only on Windows. 
 
 ## To Run Server
-To run server. Just run Executable named atago.exe
+To run server. Just run Executable named atago.exe in src/main directory.
 
 ## About Golang
 Golang version 1.14 is used to develop.
