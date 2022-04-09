@@ -1,0 +1,4 @@
+{
+    "go.gocodeAutoBuild": true,
+    "go.inferGopath": false
+}

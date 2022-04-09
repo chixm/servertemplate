@@ -1,61 +1,59 @@
-package main
+package servertemplate
 
 import (
 	"net/http"
 	"strconv"
 	"time"
 
+	src "github.com/chixm/servertemplate/src/server"
 	"github.com/gorilla/mux"
 )
-
-// instance of the server
-var server *http.Server
 
 const useLogFile = false // If this param is true, write out log to /log/application.log file instead of writing to stdout.
 
 func main() {
 	initialize()
-
-	launchServer(createServerEndPoints())
-
 	defer terminate()
+
+	// server launch
+	launchServer(createServerEndPoints())
 }
 
 // initialize systems around this server.
 func initialize() {
-	setupLog(useLogFile)
+	src.SetupLog(useLogFile)
 
-	initializeConfig()
+	src.InitializeConfig()
 
-	initializeUniqueIDMaker()
+	src.InitializeUniqueIDMaker()
 
-	initializeDatabaseConnections()
+	src.InitializeDatabaseConnections()
 
-	initializeRedis()
+	src.InitializeRedis()
 
-	initializeWebdriver()
+	src.InitializeWebdriver()
 
-	initializeEmailSender()
+	src.InitializeEmailSender()
 
-	initializeBatch()
+	src.InitializeBatch()
 
 	initializeServiceFunctions()
 }
 
 func terminate() {
-	terminateDatabaseConnections()
+	src.TerminateDatabaseConnections()
 
-	terminateBatch()
+	src.TerminateBatch()
 
-	terminateRedis()
+	src.TerminateRedis()
 
-	terminateLog()
+	src.TerminateLog()
 }
 
 // settings of endpoints
 func createServerEndPoints() *mux.Router {
 	r := mux.NewRouter()
-	serviceMap, err := LoadServices()
+	serviceMap, err := src.LoadServices()
 	if err != nil {
 		panic(`Coud not define URL of Server service.` + err.Error())
 	}
@@ -66,11 +64,11 @@ func createServerEndPoints() *mux.Router {
 	}
 
 	// load default web socket
-	initializeWebSocket()
-	r.HandleFunc("/ws", ws)
+	src.InitializeWebSocket()
+	r.HandleFunc("/ws", src.Ws)
 
 	// Files under /static can accessed by /static/(filename)...
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(`../../resources/static`))))
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(`/resources/static`))))
 	return r
 }
 
@@ -78,12 +76,12 @@ func createServerEndPoints() *mux.Router {
 func launchServer(r http.Handler) error {
 	server := &http.Server{
 		Handler:      r,
-		Addr:         "localhost:" + strconv.Itoa(config.Port),
+		Addr:         "localhost:" + strconv.Itoa(src.Config.Port),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
 
-	logger.Info("Execute Server ::" + server.Addr)
+	src.Logger.Info("Execute Server ::" + server.Addr)
 	return server.ListenAndServe()
 }
 

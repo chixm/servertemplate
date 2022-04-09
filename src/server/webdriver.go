@@ -1,4 +1,4 @@
-package main
+package server
 
 // Test the web pages automatically
 
@@ -11,25 +11,25 @@ import (
 var webdriver *agouti.WebDriver
 
 // Test All pages loaded when server launches
-func initializeWebdriver() {
+func InitializeWebdriver() {
 	webdriver = agouti.ChromeDriver()
 
 	err := webdriver.Start()
 	if err != nil {
-		logger.Debug(err)
+		Logger.Debug(err)
 	}
 	defer webdriver.Stop()
 
 	browser, err := webdriver.NewPage()
 	if err != nil {
-		logger.Error("Failed to open page")
-		logger.Error(err)
+		Logger.Error("Failed to open page")
+		Logger.Error(err)
 	}
 
 	err = browser.Navigate("https://google.com/")
 	if err != nil {
-		logger.Error(err)
+		Logger.Error(err)
 	}
 	html, _ := browser.HTML()
-	logger.Debug(html)
+	Logger.Debug(html)
 }

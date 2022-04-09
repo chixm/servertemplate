@@ -1,4 +1,4 @@
-package main
+package server
 
 // Background task thread.
 // SingleTaskQueue for heavy works.
@@ -10,7 +10,7 @@ import (
 
 var batchChannel chan<- func()
 
-func initializeBatch() {
+func InitializeBatch() {
 	var rc chan func()
 	rc, batchChannel = createChannels()
 	go runWorker(rc)
@@ -45,6 +45,6 @@ func addToBatchQueue(action func()) {
 	batchChannel <- action
 }
 
-func terminateBatch() {
+func TerminateBatch() {
 	close(batchChannel)
 }

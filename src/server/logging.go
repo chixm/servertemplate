@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"log"
@@ -8,7 +8,7 @@ import (
 	logrus "github.com/sirupsen/logrus"
 )
 
-var logger *logrus.Entry
+var Logger *logrus.Entry
 
 var logFile *os.File
 
@@ -19,7 +19,7 @@ var logFile *os.File
  * useFile true:uses logfile false: outputs to standard output
  *
  */
-func setupLog(useFile bool) {
+func SetupLog(useFile bool) {
 	// Configure Log Formats
 	var lg = logrus.New()
 	mode := int32(0777)
@@ -33,16 +33,16 @@ func setupLog(useFile bool) {
 	lg.Formatter = f
 
 	hostname, _ := os.Hostname()
-	logger = lg.WithField("host", hostname) //always write log with hostname.
+	Logger = lg.WithField("host", hostname) //always write log with hostname.
 
 	if useFile {
 		lg.SetOutput(file)
 	} else {
 		lg.SetOutput(os.Stdout)
 	}
-	logger.Info("Logrus is Setup for logging.")
+	Logger.Info("Logrus is Setup for logging.")
 }
 
-func terminateLog() {
+func TerminateLog() {
 	logFile.Close()
 }

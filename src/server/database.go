@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"strconv"
@@ -16,9 +16,9 @@ var database map[string]*sqlx.DB
 
 // init configuration of database. requires configurations loaded.
 // To See MySQL driver settings format. Go to https://github.com/go-sql-driver/mysql/
-func initializeDatabaseConnections() {
+func InitializeDatabaseConnections() {
 	database = make(map[string]*sqlx.DB)
-	for _, dbConf := range config.Database {
+	for _, dbConf := range Config.Database {
 		// Connecting to MySQL server.
 		db := sqlx.MustOpen("mysql", dbConf.Username+`:`+dbConf.Password+"@tcp("+dbConf.Host+":"+strconv.Itoa(dbConf.Port)+")/"+dbConf.Name+"?characterEncoding=utf8")
 		db.SetMaxIdleConns(dbConf.MaxIdle)
@@ -26,16 +26,16 @@ func initializeDatabaseConnections() {
 		database[dbConf.Id] = db
 		// Exec Query for test
 		db.QueryRow("select 'test connection' from dual where 1 = $1", 1)
-		logger.Println(`DB Connection Created for ` + dbConf.Name + " User[" + dbConf.Username + "] maxIdle::" + strconv.Itoa(dbConf.MaxIdle) + " maxOpen::" + strconv.Itoa(dbConf.MaxOpen))
+		Logger.Println(`DB Connection Created for ` + dbConf.Name + " User[" + dbConf.Username + "] maxIdle::" + strconv.Itoa(dbConf.MaxIdle) + " maxOpen::" + strconv.Itoa(dbConf.MaxOpen))
 	}
 }
 
 // remove connections if server ends.
-func terminateDatabaseConnections() {
+func TerminateDatabaseConnections() {
 	for key, d := range database {
-		logger.Println(`Closing Database :` + key)
+		Logger.Println(`Closing Database :` + key)
 		if err := d.Close(); err != nil {
-			logger.Error(err)
+			Logger.Error(err)
 		}
 	}
 }

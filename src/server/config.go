@@ -1,4 +1,4 @@
-package main
+package server
 
 // load Configuration File in root path.
 // config.json for default
@@ -13,11 +13,11 @@ import (
 )
 
 // Config Parameter Holder
-var config *Configuration
+var Config *Configuration
 
 // read configuration file.
-func initializeConfig() {
-	logger.Println(`[Configuration]`)
+func InitializeConfig() {
+	Logger.Println(`[Configuration]`)
 	loadConfiguration()
 }
 
@@ -47,15 +47,15 @@ func loadConfiguration() {
 
 	printConfiguration(&c)
 
-	config = &c
+	Config = &c
 }
 
 func printConfiguration(c *Configuration) {
 	for _, v := range c.Database {
-		logger.Println(`Loaded Database Configuration of ::` + v.Id + "[" + v.Host + ":" + strconv.Itoa(v.Port) + "]")
+		Logger.Println(`Loaded Database Configuration of ::` + v.Id + "[" + v.Host + ":" + strconv.Itoa(v.Port) + "]")
 	}
 	for _, r := range c.Redis {
-		logger.Println(`Loaded Redis Configuration of ::` + r.Id + "[" + r.Host + "]")
+		Logger.Println(`Loaded Redis Configuration of ::` + r.Id + "[" + r.Host + "]")
 	}
 
 }

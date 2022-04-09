@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	Encoder "encoding/base64"
@@ -23,7 +23,7 @@ var mu = &sync.Mutex{}
 
 var hostName string
 
-func initializeUniqueIDMaker() {
+func InitializeUniqueIDMaker() {
 	if h, err := os.Hostname(); err == nil {
 		hostName = h
 	} else {

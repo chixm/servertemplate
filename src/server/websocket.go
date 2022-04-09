@@ -1,4 +1,4 @@
-package main
+package server
 
 // websocket connection handling of server
 
@@ -14,17 +14,17 @@ import (
 var upgrader websocket.Upgrader
 var messageReceiver *webSocketService
 
-func initializeWebSocket() {
+func InitializeWebSocket() {
 	upgrader = websocket.Upgrader{CheckOrigin: checkOriginHost}
 	messageReceiver = &webSocketService{}
 	messageReceiver.New()
 }
 
 // Entry Point of WebSocket Request
-func ws(w http.ResponseWriter, r *http.Request) {
+func Ws(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil) //upgrade from http to ws
 	if err != nil {
-		logger.Errorln("Upgrade to websocket failed:: " + err.Error())
+		Logger.Errorln("Upgrade to websocket failed:: " + err.Error())
 		return
 	}
 	defer conn.Close()
@@ -79,7 +79,7 @@ func messageListener(conn *websocket.Conn) <-chan int {
 		for {
 			mt, msg, err := conn.ReadMessage()
 			if err != nil {
-				logger.Errorln(err)
+				Logger.Errorln(err)
 				break messageLoop
 			}
 			switch mt {
@@ -92,7 +92,7 @@ func messageListener(conn *websocket.Conn) <-chan int {
 			case websocket.PongMessage:
 				messageReceiver.PongMessageReceiver(conn, msg)
 			default:
-				logger.Errorln(`Unknown Message Type detected.`)
+				Logger.Errorln(`Unknown Message Type detected.`)
 				break messageLoop
 			}
 		}

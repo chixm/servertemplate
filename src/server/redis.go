@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"strconv"
@@ -10,10 +10,10 @@ import (
 var redisConnections map[string]*redis.Pool
 
 // Make connections to Redis from Config
-func initializeRedis() {
+func InitializeRedis() {
 	redisConnections = make(map[string]*redis.Pool)
 
-	for _, r := range config.Redis {
+	for _, r := range Config.Redis {
 		pool := makeConnectionPool(r.Host, r.Port, r.MaxIdle, r.MaxActive)
 		redisConnections[r.Id] = pool
 
@@ -22,13 +22,13 @@ func initializeRedis() {
 		if err != nil {
 			panic(err)
 		}
-		logger.Println("Tested Redis Connection of " + r.Host)
+		Logger.Println("Tested Redis Connection of " + r.Host)
 		rep, err := redis.String(pool.Get().Do("get", "test"))
 		if err != nil {
 			panic(err)
 		}
 		if rep == "testvalue" {
-			logger.Println("Tested Redis " + r.Host + " OK.")
+			Logger.Println("Tested Redis " + r.Host + " OK.")
 		}
 	}
 }
@@ -42,11 +42,11 @@ func makeConnectionPool(host string, port int, maxIdle, maxActive int) *redis.Po
 	}
 }
 
-func terminateRedis() {
+func TerminateRedis() {
 	for _, c := range redisConnections {
 		err := c.Close()
 		if err != nil {
-			logger.Println("Redis Close Error::" + err.Error())
+			Logger.Println("Redis Close Error::" + err.Error())
 		}
 	}
 }
