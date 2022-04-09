@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Build Golang Server
           command: |
-            GOOS=linux GOARCH=amd64 go build
+            GOOS=linux GOARCH=amd64 go build -o servertemplate
       - run:
           name: define ECR repository From CircleCI env setting
           command: |
@@ -25,7 +25,8 @@ jobs:
       - run:
           name: show current dir
           command: |
-            pwd | ls -a
+            pwd
+            ls -a
       - run:
           name: Build image
           command: |
