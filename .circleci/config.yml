@@ -4,7 +4,6 @@
 version: 2
 jobs:
   buildAndDeploy:
-  working_directory: /go/src/github.com/chixm/servertemplate
     docker:
       - image: circleci/golang:1.17
     steps:
