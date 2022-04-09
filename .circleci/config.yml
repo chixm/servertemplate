@@ -23,6 +23,10 @@ jobs:
             echo 'export ECR_REPOSITORY_NAME="${AWS_RESOURCE_NAME_PREFIX}"' >> $BASH_ENV
             echo 'export FULL_IMAGE_NAME="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:${CIRCLE_SHA1}"' >> $BASH_ENV
       - run:
+          name: show current dir
+          command: |
+            pwd | ls -a
+      - run:
           name: Build image
           command: |
             docker build -f Dockerfile -t $FULL_IMAGE_NAME .
