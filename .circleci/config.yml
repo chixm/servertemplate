@@ -3,25 +3,42 @@
 # Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2
 jobs:
-  build:
+  buildAndDeploy:
+  working_directory: /go/src/github.com/chixm/servertemplate
     docker:
-      # specify the version
-      - image: circleci/golang:1.12
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    #### TEMPLATE_NOTE: go expects specific checkout path representing url
-    #### expecting it in the form of
-    ####   /go/src/github.com/circleci/go-tool
-    ####   /go/src/bitbucket.org/circleci/go-tool
-    working_directory: /go/src/github.com/chixm/servertemplate
+      - image: circleci/golang:1.17
     steps:
       - checkout
+      - setup_remote_docker
+      - run:
+          name: Run Golang Test 
+          command: |
+            go test -v ./...
+      - run:
+          name: Build Golang Server
+          command: |
+            GOOS=linux GOARCH=amd64 go build
+      - run:
+          name: define ECR repository From CircleCI env setting
+          command: |
+            echo 'export ECR_REPOSITORY_NAME="${AWS_RESOURCE_NAME_PREFIX}"' >> $BASH_ENV
+            echo 'export FULL_IMAGE_NAME="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:${CIRCLE_SHA1}"' >> $BASH_ENV
+      - run:
+          name: Build image
+          command: |
+            docker build -f Dockerfile -t $FULL_IMAGE_NAME .
+      - run:
+          name: Save Docker image as an archive
+          command: |
+            mkdir docker-image
+            docker save -o docker-image/image.tar $FULL_IMAGE_NAME
 
-      # specify any bash command here prefixed with `run: `
-      - run: env
-      - run: go get -v -t -d ./...
-      - run: go test -v ./...
+workflows:
+  version: 2
+  build-push:
+    jobs:
+      - buildAndDeploy:
+          filters:
+            branches:
+              only:
+                - master
