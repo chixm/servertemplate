@@ -1,7 +1,9 @@
 package servertemplate
 
 import (
+	"log"
 	"net/http"
+	"runtime/debug"
 	"strconv"
 	"time"
 
@@ -87,5 +89,5 @@ func launchServer(r http.Handler) error {
 
 /** give initialized functions and connections to service. */
 func initializeServiceFunctions() {
-
+	log.Println(debug.Stack())
 }
